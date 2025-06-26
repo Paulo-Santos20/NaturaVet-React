@@ -1,35 +1,39 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React from 'react';
+import './styles/globals.css';
+import Layout from './components/common/Layout';
+import Home from './pages/Home';
+import About from './pages/About';
+import Services from './pages/Services';
 
 function App() {
-  const [count, setCount] = useState(0)
+  // Roteamento simples baseado no hash da URL
+  const getPageFromHash = () => {
+    const hash = window.location.hash.slice(1);
+    switch(hash) {
+      case 'sobre': return <About />;
+      case 'servicos': return <Services />;
+      default: return <Home />;
+    }
+  };
+
+  const [currentPage, setCurrentPage] = React.useState(getPageFromHash());
+
+  React.useEffect(() => {
+    const handleHashChange = () => {
+      setCurrentPage(getPageFromHash());
+    };
+
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, []);
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div className="App">
+      <Layout>
+        {currentPage}
+      </Layout>
+    </div>
+  );
 }
 
-export default App
+export default App;
