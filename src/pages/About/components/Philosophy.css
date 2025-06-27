@@ -1,0 +1,318 @@
+/* ===== PHILOSOPHY SECTION ===== */
+.philosophy-section {
+  padding: var(--spacing-5xl) 0;
+  background: var(--color-white);
+  position: relative;
+  overflow: hidden;
+}
+
+.philosophy-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(252, 90, 141, 0.05) 0%, transparent 70%);
+  border-radius: 50%;
+  transform: translate(50%, -50%);
+}
+
+.philosophy-content {
+  position: relative;
+  z-index: 2;
+}
+
+/* ===== PHILOSOPHY QUOTE ===== */
+.philosophy-quote {
+  position: relative;
+  margin-bottom: var(--spacing-4xl);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2xl);
+}
+
+.quote-content {
+  flex: 1;
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-white) 100%);
+  padding: var(--spacing-3xl);
+  border-radius: var(--radius-2xl);
+  box-shadow: var(--shadow-xl);
+  border-left: 6px solid var(--color-accent);
+  position: relative;
+}
+
+.quote-content::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="dots" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="10" cy="10" r="1" fill="rgba(252,90,141,0.1)"/></pattern></defs><rect width="100" height="100" fill="url(%23dots)"/></svg>');
+  border-radius: var(--radius-2xl);
+  opacity: 0.3;
+}
+
+.quote-content blockquote {
+  font-size: var(--font-size-xl);
+  color: var(--color-text);
+  line-height: 1.7;
+  margin: 0 0 var(--spacing-lg) 0;
+  font-style: italic;
+  position: relative;
+  z-index: 2;
+}
+
+.quote-content cite {
+  font-size: var(--font-size-lg);
+  color: var(--color-accent);
+  font-weight: var(--font-weight-semibold);
+  font-style: normal;
+  position: relative;
+  z-index: 2;
+}
+
+.quote-decoration {
+  flex-shrink: 0;
+  position: relative;
+}
+
+.quote-mark {
+  font-size: 8rem;
+  color: var(--color-accent);
+  opacity: 0.2;
+  font-family: serif;
+  line-height: 1;
+  animation: float 4s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* ===== PHILOSOPHY HEADER ===== */
+.philosophy-header {
+  text-align: center;
+  margin-bottom: var(--spacing-3xl);
+}
+
+.philosophy-header h2 {
+  font-size: var(--font-size-4xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text);
+  margin: 0;
+  line-height: 1.2;
+}
+
+/* ===== PRINCIPLES GRID ===== */
+.principles-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--spacing-2xl);
+}
+
+.principle-card {
+  background: var(--color-white);
+  padding: var(--spacing-2xl);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--color-gray);
+  transition: all var(--transition-normal);
+  position: relative;
+  overflow: hidden;
+}
+
+.principle-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--color-accent), #e04a7a);
+  transform: scaleX(0);
+  transition: transform var(--transition-normal);
+}
+
+.principle-card:hover::before {
+  transform: scaleX(1);
+}
+
+.principle-card:hover {
+  transform: translateY(-10px);
+  box-shadow: var(--shadow-xl);
+  border-color: var(--color-accent);
+}
+
+/* ===== PRINCIPLE ICON ===== */
+.principle-icon {
+  width: 80px;
+  height: 80px;
+  background: linear-gradient(135deg, var(--color-accent), #e04a7a);
+  color: white;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  margin-bottom: var(--spacing-xl);
+  position: relative;
+  overflow: hidden;
+}
+
+.principle-icon::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transform: translateX(-100%);
+  transition: transform 0.6s ease;
+}
+
+.principle-card:hover .principle-icon::before {
+  transform: translateX(100%);
+}
+
+/* ===== PRINCIPLE CONTENT ===== */
+.principle-content h3 {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text);
+  margin-bottom: var(--spacing-md);
+  line-height: 1.3;
+}
+
+.principle-content p {
+  font-size: var(--font-size-base);
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* ===== RESPONSIVIDADE ===== */
+@media (max-width: 1024px) {
+  .philosophy-quote {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .quote-decoration {
+    order: -1;
+  }
+  
+  .principles-grid {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .philosophy-section {
+    padding: var(--spacing-3xl) 0;
+  }
+  
+  .quote-content {
+    padding: var(--spacing-2xl);
+  }
+  
+  .quote-content blockquote {
+    font-size: var(--font-size-lg);
+  }
+  
+  .quote-mark {
+    font-size: 6rem;
+  }
+  
+  .philosophy-header h2 {
+    font-size: var(--font-size-3xl);
+  }
+  
+  .principles-grid {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-xl);
+  }
+  
+  .principle-card {
+    padding: var(--spacing-xl);
+  }
+  
+  .principle-icon {
+    width: 60px;
+    height: 60px;
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .quote-content {
+    padding: var(--spacing-xl);
+  }
+  
+  .quote-content blockquote {
+    font-size: var(--font-size-base);
+  }
+  
+  .principle-card {
+    padding: var(--spacing-lg);
+  }
+  
+  .principle-content h3 {
+    font-size: var(--font-size-lg);
+  }
+}
+
+/* ===== ANIMAÇÕES ===== */
+.principle-card {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+.principle-card:nth-child(1) {
+  animation-delay: 0.1s;
+}
+
+.principle-card:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.principle-card:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+.principle-card:nth-child(4) {
+  animation-delay: 0.4s;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.principle-card:hover .principle-icon {
+  animation: bounce 0.6s ease-in-out;
+}
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-5px);
+  }
+  60% {
+    transform: translateY(-2px);
+  }
+}
