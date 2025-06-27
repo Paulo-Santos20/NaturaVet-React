@@ -1,0 +1,86 @@
+/* ===== HOME PAGE ===== */
+.home-page {
+  width: 100%;
+  overflow-x: hidden;
+}
+
+/* ===== SEÇÕES DA HOME ===== */
+.home-page section {
+  width: 100%;
+  position: relative;
+}
+
+/* ===== ESPAÇAMENTO ENTRE SEÇÕES ===== */
+.home-page section:not(:last-child) {
+  margin-bottom: 0;
+}
+
+/* ===== CONTAINER GLOBAL ===== */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-lg);
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 0 var(--spacing-md);
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 0 var(--spacing-sm);
+  }
+}
+
+/* ===== ANIMAÇÕES GLOBAIS ===== */
+.home-page {
+  animation: fadeIn 0.8s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* ===== MELHORIAS VISUAIS ===== */
+.home-page section {
+  scroll-margin-top: 80px;
+}
+
+/* ===== TRANSIÇÕES SUAVES ===== */
+.home-page * {
+  transition: all var(--transition-normal);
+}
+
+/* ===== ESTADOS DE LOADING ===== */
+.home-page.loading {
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+.home-page.loading::after {
+  content: '';
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 40px;
+  height: 40px;
+  margin: -20px 0 0 -20px;
+  border: 3px solid var(--color-gray);
+  border-top-color: var(--color-accent);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  z-index: 9999;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
