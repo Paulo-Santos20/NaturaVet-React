@@ -1,0 +1,741 @@
+/* ===== GERENCIAMENTO DE PETS ===== */
+.pets-management {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xl);
+}
+
+.pets-filters {
+  display: flex;
+  gap: var(--spacing-lg);
+  background: var(--color-white);
+  padding: var(--spacing-lg);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  flex-wrap: wrap;
+}
+
+.pets-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: var(--spacing-lg);
+  background: var(--color-white);
+  padding: var(--spacing-lg);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+.pets-stats .stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--spacing-lg);
+  border-radius: var(--radius-md);
+  background: var(--color-primary);
+  transition: all var(--transition-normal);
+}
+
+.pets-stats .stat-item:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-md);
+}
+
+.pets-stats .stat-number {
+  font-size: var(--font-size-3xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-accent);
+  margin-bottom: var(--spacing-xs);
+  line-height: 1.2;
+}
+
+.pets-stats .stat-label {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  text-align: center;
+  font-weight: var(--font-weight-medium);
+  line-height: 1.3;
+}
+
+/* Tabela de Pets */
+.pets-table-container {
+  background: var(--color-white);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+
+.pets-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: auto;
+}
+
+.pets-table th {
+  background: var(--color-gray-light);
+  padding: var(--spacing-md);
+  text-align: left;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text);
+  border-bottom: 1px solid var(--color-gray);
+  font-size: var(--font-size-sm);
+  white-space: nowrap;
+}
+
+.pets-table td {
+  padding: var(--spacing-md);
+  border-bottom: 1px solid var(--color-gray-light);
+  vertical-align: top;
+  font-size: var(--font-size-sm);
+  line-height: 1.4;
+}
+
+.pets-table tr:hover {
+  background: var(--color-primary);
+}
+
+/* Larguras específicas das colunas da tabela de pets */
+.pets-table th:nth-child(1),
+.pets-table td:nth-child(1) { width: 18%; }
+.pets-table th:nth-child(2),
+.pets-table td:nth-child(2) { width: 15%; }
+.pets-table th:nth-child(3),
+.pets-table td:nth-child(3) { width: 15%; }
+.pets-table th:nth-child(4),
+.pets-table td:nth-child(4) { width: 12%; }
+.pets-table th:nth-child(5),
+.pets-table td:nth-child(5) { width: 12%; }
+.pets-table th:nth-child(6),
+.pets-table td:nth-child(6) { width: 8%; }
+.pets-table th:nth-child(7),
+.pets-table td:nth-child(7) { width: 12%; }
+.pets-table th:nth-child(8),
+.pets-table td:nth-child(8) { width: 5%; }
+.pets-table th:nth-child(9),
+.pets-table td:nth-child(9) { width: 3%; }
+
+/* Informações do Pet */
+.pet-info {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  min-width: 140px;
+}
+
+.pet-avatar {
+  width: 40px;
+  height: 40px;
+  background: var(--color-primary);
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  flex-shrink: 0;
+  border: 2px solid var(--color-accent);
+}
+
+.pet-details {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  flex: 1;
+}
+
+.pet-name {
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text);
+  font-size: var(--font-size-base);
+  line-height: 1.3;
+  display: block;
+}
+
+.pet-gender {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+  line-height: 1.3;
+  display: block;
+}
+
+.pet-color {
+  font-size: var(--font-size-xs);
+  color: var(--color-accent);
+  background: var(--color-primary);
+  padding: 1px 4px;
+  border-radius: var(--radius-sm);
+  align-self: flex-start;
+  line-height: 1.2;
+  display: inline-block;
+  max-width: 100%;
+}
+
+/* Informações do Tutor */
+.owner-info {
+  min-width: 100px;
+}
+
+.owner-info .owner-name {
+  color: var(--color-text);
+  font-weight: var(--font-weight-medium);
+  font-size: var(--font-size-sm);
+  line-height: 1.3;
+  display: block;
+}
+
+/* Informações de Espécie */
+.species-info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+  min-width: 120px;
+}
+
+.species-info .species {
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text);
+  font-size: var(--font-size-sm);
+  line-height: 1.3;
+  display: block;
+}
+
+.species-info .breed {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+  line-height: 1.3;
+  display: block;
+}
+
+/* Informações de Idade e Peso */
+.age-weight-info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+  min-width: 80px;
+}
+
+.age-weight-info .age {
+  color: var(--color-text);
+  font-size: var(--font-size-sm);
+  line-height: 1.3;
+  display: block;
+}
+
+.age-weight-info .weight {
+  color: var(--color-accent);
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-sm);
+  line-height: 1.3;
+  display: block;
+}
+
+/* Informações de Vacinação */
+.vaccination-info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+  min-width: 100px;
+}
+
+.vaccination-status.vaccinated {
+  color: #27ae60;
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.3;
+  display: block;
+}
+
+.vaccination-status.not-vaccinated {
+  color: #e74c3c;
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.3;
+  display: block;
+}
+
+.neutered-status.neutered {
+  color: #3498db;
+  font-size: var(--font-size-xs);
+  line-height: 1.3;
+  display: block;
+}
+
+.neutered-status.not-neutered {
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-xs);
+  line-height: 1.3;
+  display: block;
+}
+
+/* Informações de Consultas */
+.consultations-info {
+  text-align: center;
+}
+
+.consultations-count {
+  font-weight: var(--font-weight-bold);
+  color: var(--color-accent);
+  font-size: var(--font-size-lg);
+  line-height: 1.3;
+  text-align: center;
+  display: block;
+}
+
+.last-consultation {
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+  line-height: 1.3;
+  text-align: center;
+  display: block;
+}
+
+/* Controles de Status */
+.status-controls {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  justify-content: center;
+}
+
+.toggle-status-btn {
+  width: 28px;
+  height: 28px;
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-normal);
+  font-size: var(--font-size-sm);
+  flex-shrink: 0;
+}
+
+.toggle-status-btn.active {
+  background: rgba(231, 76, 60, 0.1);
+  color: #e74c3c;
+}
+
+.toggle-status-btn.active:hover {
+  background: #e74c3c;
+  color: white;
+  transform: scale(1.1);
+}
+
+.toggle-status-btn.inactive {
+  background: rgba(39, 174, 96, 0.1);
+  color: #27ae60;
+}
+
+.toggle-status-btn.inactive:hover {
+  background: #27ae60;
+  color: white;
+  transform: scale(1.1);
+}
+
+/* Formulário de Pet */
+.pet-form {
+  padding: var(--spacing-xl);
+  flex: 1;
+}
+
+.form-sections {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xl);
+}
+
+.form-section {
+  background: var(--color-gray-light);
+  padding: var(--spacing-lg);
+  border-radius: var(--radius-md);
+}
+
+.form-section h4 {
+  color: var(--color-text);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  margin: 0 0 var(--spacing-lg) 0;
+  border-bottom: 2px solid var(--color-accent);
+  padding-bottom: var(--spacing-sm);
+  line-height: 1.3;
+}
+
+/* Modal de Detalhes do Pet */
+.pet-details-content {
+  padding: var(--spacing-xl);
+  max-height: 70vh;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.pet-details-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: var(--spacing-xl);
+  margin-bottom: var(--spacing-xl);
+}
+
+/* Informações médicas dos pets */
+.medical-info {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--spacing-lg);
+}
+
+.medical-item h5 {
+  color: var(--color-text);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  margin: 0 0 var(--spacing-sm) 0;
+  border-bottom: 1px solid var(--color-gray);
+  padding-bottom: var(--spacing-xs);
+  line-height: 1.3;
+}
+
+.medical-item p {
+  color: var(--color-text-secondary);
+  line-height: 1.5;
+  font-size: var(--font-size-sm);
+  margin: 0;
+  padding: var(--spacing-sm);
+  background: var(--color-white);
+  border-radius: var(--radius-sm);
+  border-left: 3px solid var(--color-accent);
+}
+
+/* Responsividade para Pets */
+@media (max-width: 1400px) {
+  .pet-details-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 1200px) {
+  .pets-stats {
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .pets-filters {
+    flex-direction: column;
+  }
+  
+  .pets-stats {
+    grid-template-columns: 1fr 1fr;
+  }
+  
+  .pets-table-container {
+    overflow-x: auto;
+  }
+  
+  .pets-table {
+    min-width: 1200px;
+  }
+  
+  .pet-details-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .pet-info {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-sm);
+  }
+  
+  .status-controls {
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 480px) {
+  .pets-stats {
+    grid-template-columns: 1fr;
+  }
+  
+  .form-sections {
+    gap: var(--spacing-lg);
+  }
+  
+  .form-section {
+    padding: var(--spacing-md);
+  }
+  
+  .medical-info {
+    gap: var(--spacing-md);
+  }
+}
+
+/* Melhorias visuais específicas para pets */
+.pets-table tr:hover {
+  transform: translateX(3px);
+  transition: transform var(--transition-normal);
+}
+
+.pet-avatar:hover {
+  transform: scale(1.1) rotate(10deg);
+  transition: transform var(--transition-normal);
+}
+
+/* Estados específicos dos pets */
+.pets-table tr.inactive {
+  opacity: 0.7;
+}
+
+.pets-table tr.inactive .pet-name {
+  text-decoration: line-through;
+}
+
+/* Validação de formulário */
+.form-group input:invalid {
+  border-color: #e74c3c;
+}
+
+.form-group input:valid {
+  border-color: #27ae60;
+}
+
+.form-group select:invalid {
+  border-color: #e74c3c;
+}
+
+.form-group select:valid {
+  border-color: #27ae60;
+}
+
+/* Animações para feedback */
+.stat-item:hover .stat-number {
+  transform: scale(1.1);
+  transition: transform var(--transition-normal);
+}
+
+.vaccination-status.vaccinated::before {
+  content: '✅ ';
+}
+
+.vaccination-status.not-vaccinated::before {
+  content: '❌ ';
+}
+
+.neutered-status.neutered::before {
+  content: '✂️ ';
+}
+
+.neutered-status.not-neutered::before {
+  content: '🚫 ';
+}
+
+/* Melhorias para campos de checkbox */
+.checkbox-group {
+  margin-bottom: var(--spacing-sm);
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  cursor: pointer;
+  font-size: var(--font-size-sm);
+  color: var(--color-text);
+  line-height: 1.3;
+  padding: var(--spacing-sm);
+  border-radius: var(--radius-sm);
+  transition: background-color var(--transition-normal);
+}
+
+.checkbox-label:hover {
+  background: var(--color-white);
+}
+
+.checkbox-label input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--color-accent);
+  flex-shrink: 0;
+}
+
+/* Indicadores visuais para diferentes espécies */
+.pet-avatar[data-species="Cão"] {
+  background: linear-gradient(135deg, #8B4513, #D2691E);
+}
+
+.pet-avatar[data-species="Gato"] {
+  background: linear-gradient(135deg, #696969, #A9A9A9);
+}
+
+.pet-avatar[data-species="Pássaro"] {
+  background: linear-gradient(135deg, #4169E1, #87CEEB);
+}
+
+.pet-avatar[data-species="Coelho"] {
+  background: linear-gradient(135deg, #F5DEB3, #DEB887);
+}
+
+/* Melhorias para campos de peso */
+.form-group input[type="number"] {
+  text-align: right;
+}
+
+.form-group input[type="number"]::-webkit-outer-spin-button,
+.form-group input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.form-group input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+/* Estilos para microchip */
+.form-group input[name="microchip"] {
+  font-family: 'Courier New', monospace;
+  letter-spacing: 1px;
+}
+
+/* Melhorias para textarea */
+.form-group textarea {
+  resize: vertical;
+  min-height: 60px;
+  max-height: 150px;
+}
+
+/* Estados de loading para operações específicas */
+.pets-table tr.loading {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.pets-table tr.loading::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 16px;
+  height: 16px;
+  margin: -8px 0 0 -8px;
+  border: 2px solid var(--color-gray);
+  border-top-color: var(--color-accent);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+/* Melhorias para acessibilidade */
+.pet-info:focus-within {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+.vaccination-info:focus-within {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+/* Estilos para impressão */
+@media print {
+  .pets-table {
+    font-size: 10px;
+  }
+  
+  .pet-avatar {
+    background: #f0f0f0 !important;
+    color: #000 !important;
+  }
+  
+  .action-btn,
+  .toggle-status-btn {
+    display: none !important;
+  }
+}
+
+/* Melhorias para contraste */
+@media (prefers-contrast: high) {
+  .pet-avatar {
+    border-width: 3px;
+  }
+  
+  .vaccination-status,
+  .neutered-status {
+    font-weight: var(--font-weight-bold);
+  }
+}
+
+/* Animações suaves para mudanças de estado */
+.vaccination-status,
+.neutered-status,
+.pet-name,
+.owner-name {
+  transition: color var(--transition-normal);
+}
+
+/* Melhorias para dark mode (se implementado futuramente) */
+@media (prefers-color-scheme: dark) {
+  .pet-avatar {
+    border-color: var(--color-primary);
+  }
+  
+  .medical-item p {
+    background: var(--color-gray-light);
+  }
+}
+
+/* Estilos para campos obrigatórios */
+.form-group label[for] {
+  position: relative;
+}
+
+.form-group label[for]::after {
+  content: ' *';
+  color: #e74c3c;
+  font-weight: var(--font-weight-bold);
+}
+
+.form-group:not([required]) label[for]::after {
+  display: none;
+}
+
+/* Melhorias para feedback visual */
+.form-group input:focus + .form-feedback,
+.form-group select:focus + .form-feedback,
+.form-group textarea:focus + .form-feedback {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.form-feedback {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+  margin-top: var(--spacing-xs);
+  opacity: 0;
+  transform: translateY(-5px);
+  transition: all var(--transition-normal);
+}
+
+/* Estilos para campos com erro */
+.form-group.error input,
+.form-group.error select,
+.form-group.error textarea {
+  border-color: #e74c3c;
+  box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.1);
+}
+
+.form-group.error .form-feedback {
+  color: #e74c3c;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Estilos para campos com sucesso */
+.form-group.success input,
+.form-group.success select,
+.form-group.success textarea {
+  border-color: #27ae60;
+  box-shadow: 0 0 0 3px rgba(39, 174, 96, 0.1);
+}
+
+.form-group.success .form-feedback {
+  color: #27ae60;
+  opacity: 1;
+  transform: translateY(0);
+}

@@ -1,0 +1,391 @@
+/* ===== GERENCIAMENTO DE AGENDAMENTOS ===== */
+.appointments-management {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xl);
+}
+
+.appointments-filters {
+  display: flex;
+  gap: var(--spacing-lg);
+  background: var(--color-white);
+  padding: var(--spacing-lg);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  flex-wrap: wrap;
+}
+
+.appointments-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: var(--spacing-lg);
+  background: var(--color-white);
+  padding: var(--spacing-lg);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+.appointments-stats .stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--spacing-lg);
+  border-radius: var(--radius-md);
+  background: var(--color-primary);
+  transition: all var(--transition-normal);
+}
+
+.appointments-stats .stat-item:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-md);
+}
+
+.appointments-stats .stat-number {
+  font-size: var(--font-size-3xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-accent);
+  margin-bottom: var(--spacing-xs);
+  line-height: 1.2;
+}
+
+.appointments-stats .stat-label {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  text-align: center;
+  font-weight: var(--font-weight-medium);
+  line-height: 1.3;
+}
+
+/* Tabela de Agendamentos */
+.appointments-table-container {
+  background: var(--color-white);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+
+.appointments-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: auto;
+}
+
+.appointments-table th {
+  background: var(--color-gray-light);
+  padding: var(--spacing-md);
+  text-align: left;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text);
+  border-bottom: 1px solid var(--color-gray);
+  font-size: var(--font-size-sm);
+  white-space: nowrap;
+}
+
+.appointments-table td {
+  padding: var(--spacing-md);
+  border-bottom: 1px solid var(--color-gray-light);
+  vertical-align: top;
+  font-size: var(--font-size-sm);
+  line-height: 1.4;
+}
+
+.appointments-table tr:hover {
+  background: var(--color-primary);
+}
+
+/* Larguras específicas das colunas da tabela de agendamentos */
+.appointments-table th:nth-child(1),
+.appointments-table td:nth-child(1) { width: 12%; }
+.appointments-table th:nth-child(2),
+.appointments-table td:nth-child(2) { width: 8%; }
+.appointments-table th:nth-child(3),
+.appointments-table td:nth-child(3) { width: 12%; }
+.appointments-table th:nth-child(4),
+.appointments-table td:nth-child(4) { width: 15%; }
+.appointments-table th:nth-child(5),
+.appointments-table td:nth-child(5) { width: 18%; }
+.appointments-table th:nth-child(6),
+.appointments-table td:nth-child(6) { width: 15%; }
+.appointments-table th:nth-child(7),
+.appointments-table td:nth-child(7) { width: 10%; }
+.appointments-table th:nth-child(8),
+.appointments-table td:nth-child(8) { width: 10%; }
+
+/* Células da Tabela */
+.datetime-cell {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+  min-width: 90px;
+}
+
+.datetime-cell .date {
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text);
+  font-size: var(--font-size-sm);
+  line-height: 1.3;
+}
+
+.datetime-cell .time {
+  font-size: var(--font-size-sm);
+  color: var(--color-accent);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.3;
+}
+
+.duration-badge {
+  background: var(--color-gray-light);
+  color: var(--color-text);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  white-space: nowrap;
+  display: inline-block;
+  line-height: 1.2;
+}
+
+.pet-cell .pet-name,
+.owner-cell .owner-name {
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text);
+  font-size: var(--font-size-sm);
+  line-height: 1.3;
+  display: block;
+}
+
+.contact-cell {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+  min-width: 140px;
+}
+
+.contact-cell .email {
+  color: var(--color-text);
+  font-size: var(--font-size-sm);
+  line-height: 1.3;
+  display: block;
+}
+
+.contact-cell .phone {
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+  line-height: 1.3;
+  display: block;
+}
+
+.consultation-badge {
+  background: var(--color-primary);
+  color: var(--color-accent);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  white-space: nowrap;
+  display: inline-block;
+  line-height: 1.2;
+}
+
+/* Status específicos para agendamentos */
+.status-badge.pending {
+  background: rgba(241, 196, 15, 0.1);
+  color: #f1c40f;
+}
+
+.status-badge.confirmed {
+  background: rgba(39, 174, 96, 0.1);
+  color: #27ae60;
+}
+
+.status-badge.completed {
+  background: rgba(52, 152, 219, 0.1);
+  color: #3498db;
+}
+
+.status-badge.cancelled {
+  background: rgba(231, 76, 60, 0.1);
+  color: #e74c3c;
+}
+
+/* Formulário de Agendamento */
+.appointment-form {
+  padding: var(--spacing-xl);
+  flex: 1;
+}
+
+.form-sections {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xl);
+}
+
+.form-section {
+  background: var(--color-gray-light);
+  padding: var(--spacing-lg);
+  border-radius: var(--radius-md);
+}
+
+.form-section h4 {
+  color: var(--color-text);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  margin: 0 0 var(--spacing-lg) 0;
+  border-bottom: 2px solid var(--color-accent);
+  padding-bottom: var(--spacing-sm);
+  line-height: 1.3;
+}
+
+.form-section small {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+  margin-top: var(--spacing-xs);
+  display: block;
+}
+
+.no-slots-message {
+  color: #e74c3c;
+  font-size: var(--font-size-xs);
+  font-style: italic;
+  margin-top: var(--spacing-xs);
+  line-height: 1.3;
+  display: block;
+}
+
+/* Modal de Detalhes do Agendamento */
+.appointment-details-content {
+  padding: var(--spacing-xl);
+  max-height: 70vh;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.appointment-details-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: var(--spacing-xl);
+  margin-bottom: var(--spacing-xl);
+}
+
+/* Status específicos nos detalhes */
+.value.status-pending {
+  color: #f1c40f;
+  font-weight: var(--font-weight-semibold);
+}
+
+.value.status-confirmed {
+  color: #27ae60;
+  font-weight: var(--font-weight-semibold);
+}
+
+.value.status-completed {
+  color: #3498db;
+  font-weight: var(--font-weight-semibold);
+}
+
+.value.status-cancelled {
+  color: #e74c3c;
+  font-weight: var(--font-weight-semibold);
+}
+
+/* Responsividade para Agendamentos */
+@media (max-width: 1200px) {
+  .appointment-details-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  
+  .appointments-stats {
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .appointments-filters {
+    flex-direction: column;
+  }
+  
+  .appointments-stats {
+    grid-template-columns: 1fr 1fr;
+  }
+  
+  .appointments-table-container {
+    overflow-x: auto;
+  }
+  
+  .appointments-table {
+    min-width: 1000px;
+  }
+  
+  .appointment-details-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .contact-cell {
+    min-width: auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .appointments-stats {
+    grid-template-columns: 1fr;
+  }
+  
+  .form-sections {
+    gap: var(--spacing-lg);
+  }
+  
+  .form-section {
+    padding: var(--spacing-md);
+  }
+  
+  .datetime-cell {
+    min-width: auto;
+  }
+}
+
+/* Estados específicos dos agendamentos */
+.appointments-table tr.pending {
+  border-left: 4px solid #f1c40f;
+}
+
+.appointments-table tr.confirmed {
+  border-left: 4px solid #27ae60;
+}
+
+.appointments-table tr.completed {
+  border-left: 4px solid #3498db;
+}
+
+.appointments-table tr.cancelled {
+  border-left: 4px solid #e74c3c;
+  opacity: 0.7;
+}
+
+/* Melhorias visuais */
+.form-group input[type="date"]::-webkit-calendar-picker-indicator {
+  color: var(--color-accent);
+  cursor: pointer;
+}
+
+.form-group select:disabled {
+  background: var(--color-gray-light);
+  color: var(--color-text-secondary);
+  cursor: not-allowed;
+}
+
+.form-group input:disabled {
+  background: var(--color-gray-light);
+  color: var(--color-text-secondary);
+  cursor: not-allowed;
+}
+
+/* Animações para feedback visual */
+.appointments-table tr:hover {
+  transform: translateX(5px);
+  transition: transform var(--transition-normal);
+}
+
+.stat-item:hover .stat-number {
+  transform: scale(1.1);
+  transition: transform var(--transition-normal);
+}
