@@ -1,103 +1,100 @@
-import React from 'react';
-import './styles/globals.css';
-import Layout from './components/common/Layout';
-import Home from './pages/Home';
-import About from './pages/About';
-import Services from './pages/Services';
-import Login from './pages/Login';
-import Dashboard from './pages/Dashboard/Dashboard';
+import React, { useState, useEffect } from 'react'
+import { Routes, Route, Navigate } from 'react-router-dom'
+import Header from './components/common/Header/Header'
+import Footer from './components/common/Footer/Footer'
+import Home from './pages/Home/Home'
+import About from './pages/About/About'
+import Services from './pages/Services/Services'
+import Testimonials from './pages/Testimonials/Testimonials'
+import Contact from './pages/Contact/Contact'
+import Blog from './pages/Blog/Blog'
+import Login from './pages/Login/Login'
+import Dashboard from './pages/Dashboard/Dashboard'
+import './App.css'
 
 function App() {
-  const [currentUser, setCurrentUser] = React.useState(null);
+  const [user, setUser] = useState(null)
+  const [isLoading, setIsLoading] = useState(true)
 
-  // Verificar se há usuário logado no localStorage
-  React.useEffect(() => {
-    const savedUser = localStorage.getItem('currentUser');
+  useEffect(() => {
+    // Simular carregamento do usuário
+    const savedUser = localStorage.getItem('naturavet_user')
     if (savedUser) {
       try {
-        const userData = JSON.parse(savedUser);
-        if (userData.isLoggedIn) {
-          setCurrentUser(userData);
-        }
+        setUser(JSON.parse(savedUser))
       } catch (error) {
-        console.error('Erro ao carregar dados do usuário:', error);
-        localStorage.removeItem('currentUser');
+        console.error('Erro ao carregar usuário:', error)
+        localStorage.removeItem('naturavet_user')
       }
     }
-  }, []);
+    setIsLoading(false)
+  }, [])
 
-  const getPageFromHash = () => {
-    const hash = window.location.hash.slice(1);
-    
-    // Se há um usuário logado e está tentando acessar dashboard
-    if (hash.startsWith('dashboard-')) {
-      const userType = hash.replace('dashboard-', '');
-      
-      // Verificar se o usuário tem permissão para este dashboard
-      if (currentUser && currentUser.type === userType) {
-        return <Dashboard userType={userType} />;
-      } else if (currentUser) {
-        // Redirecionar para o dashboard correto do usuário
-        window.location.hash = `dashboard-${currentUser.type}`;
-        return <Dashboard userType={currentUser.type} />;
-      } else {
-        // Não está logado, redirecionar para login
-        window.location.hash = 'login';
-        return <Login />;
-      }
-    }
-    
-    // Rotas normais
-    switch(hash) {
-      case 'sobre': return <About />;
-      case 'servicos': return <Services />;
-      case 'login': 
-        // Se já está logado, redirecionar para dashboard
-        if (currentUser && currentUser.isLoggedIn) {
-          window.location.hash = `dashboard-${currentUser.type}`;
-          return <Dashboard userType={currentUser.type} />;
-        }
-        return <Login />;
-      default: 
-        // Se está logado e tenta acessar home, redirecionar para dashboard
-        if (currentUser && currentUser.isLoggedIn) {
-          window.location.hash = `dashboard-${currentUser.type}`;
-          return <Dashboard userType={currentUser.type} />;
-        }
-        return <Home />;
-    }
-  };
+  const handleLogin = (userData) => {
+    setUser(userData)
+    localStorage.setItem('naturavet_user', JSON.stringify(userData))
+  }
 
-  const [currentPage, setCurrentPage] = React.useState(getPageFromHash());
+  const handleLogout = () => {
+    setUser(null)
+    localStorage.removeItem('naturavet_user')
+  }
 
-  React.useEffect(() => {
-    const handleHashChange = () => {
-      setCurrentPage(getPageFromHash());
-    };
-
-    window.addEventListener('hashchange', handleHashChange);
-    return () => window.removeEventListener('hashchange', handleHashChange);
-  }, [currentUser]);
-
-  // Atualizar página quando currentUser mudar
-  React.useEffect(() => {
-    setCurrentPage(getPageFromHash());
-  }, [currentUser]);
-
-  // Se estiver no dashboard, não usar o Layout padrão
-  const isDashboard = window.location.hash.includes('dashboard');
-
-  if (isDashboard) {
-    return <div className="App">{currentPage}</div>;
+  if (isLoading) {
+    return (
+      <div className="loading-screen">
+        <div className="loading-spinner"></div>
+        <p>Carregando NaturaVet...</p>
+      </div>
+    )
   }
 
   return (
     <div className="App">
-      <Layout>
-        {currentPage}
-      </Layout>
+      <Header user={user} onLogout={handleLogout} />
+      
+      <main className="main-content">
+        <Routes>
+          {/* Rotas públicas */}
+          <Route path="/" element={<Home />} />
+          <Route path="/sobre" element={<About />} />
+          <Route path="/servicos" element={<Services />} />
+          <Route path="/depoimentos" element={<Testimonials />} />
+          <Route path="/contato" element={<Contact />} />
+          <Route path="/blog" element={<Blog />} />
+
+          {/* Rota de login */}
+          <Route 
+            path="/login" 
+            element={
+              user ? (
+                <Navigate to="/dashboard" replace />
+              ) : (
+                <Login onLogin={handleLogin} />
+              )
+            } 
+          />
+
+          {/* Rota protegida do dashboard */}
+          <Route 
+            path="/dashboard/*" 
+            element={
+              user ? (
+                <Dashboard user={user} onLogout={handleLogout} />
+              ) : (
+                <Navigate to="/login" replace />
+              )
+            } 
+          />
+
+          {/* Rota de fallback */}
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </main>
+
+      <Footer />
     </div>
-  );
+  )
 }
 
-export default App;
+export default App

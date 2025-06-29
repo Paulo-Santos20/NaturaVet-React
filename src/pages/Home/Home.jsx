@@ -1,6 +1,6 @@
 import React from 'react';
 import Hero from '../../components/features/Hero/Hero';
-import Services from './components/How';
+import Services from './components/Services';
 import About from './components/Aboutdoctor';
 import Testimonials from '../../components/features/Testimonials/TestimonialsList';
 import './Home.css';

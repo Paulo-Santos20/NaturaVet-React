@@ -18,10 +18,26 @@ const Hero = () => {
             </div>
           </div>
           <div className="hero-image">
-            <div className="hero-placeholder">
-              <span>🐕🐱</span>
-              <p>Imagem do Pet Feliz</p>
+            <div className="hero-image-container">
+              <img 
+                src="./cuidado.jpg" 
+                alt="Cachorro feliz e saudável - NaturaVet"
+                className="hero-pet-image"
+                onError={(e) => {
+                  // Fallback caso a imagem não carregue
+                  e.target.style.display = 'none';
+                  e.target.nextSibling.style.display = 'flex';
+                }}
+              />
+              
+              {/* Texto com fundo branco */}
+              <div className="hero-text-overlay">
+                <p>💖 +500 Pets Atendidos</p>
+              </div>
+              
             </div>
+         
+            
           </div>
         </div>
       </div>

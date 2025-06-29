@@ -1,7 +1,8 @@
 import React from 'react';
-import './How.css';
+import { Link } from 'react-router-dom';
+import './Services.css';
 
-const HowWeCanHelp = () => {
+const Services = () => {
   const services = [
     {
       id: 1,
@@ -42,12 +43,12 @@ const HowWeCanHelp = () => {
   ];
 
   return (
-    <section className="how-we-can-help">
-      <div className="container">
-        <div className="section-header">
-          <h2>Como Podemos Ajudar seu Pet</h2>
-          <p className="section-subtitle">
-            Oferecemos soluções nutricionais completas e personalizadas
+    <section className="services-section">
+      <div className="services-container">
+        <div className="services-header">
+          <h2 className="services-title">Nossos Serviços</h2>
+          <p className="services-subtitle">
+            Oferecemos soluções nutricionais completas e personalizadas para seu pet
           </p>
         </div>
 
@@ -73,26 +74,16 @@ const HowWeCanHelp = () => {
               </div>
               
               <div className="service-action">
-                <button className="service-btn">
+                <Link to="/servicos" className="service-btn">
                   Saiba Mais
-                </button>
+                </Link>
               </div>
             </div>
           ))}
-        </div>
-
-        <div className="services-cta">
-          <div className="cta-content">
-            <h3>Pronto para Transformar a Alimentação do seu Pet?</h3>
-            <p>Agende uma consulta e descubra como uma nutrição adequada pode melhorar a qualidade de vida do seu companheiro.</p>
-          </div>
-          <button className="cta-button">
-            Agendar Consulta
-          </button>
-        </div>
+        </div>       
       </div>
     </section>
   );
 };
 
-export default HowWeCanHelp;
+export default Services;
