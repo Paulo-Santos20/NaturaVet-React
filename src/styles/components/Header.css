@@ -396,8 +396,9 @@
 }
 
 @media (max-width: 768px) {
+    
   .nav-wrapper {
-    padding: 12px var(--spacing-md);
+    padding: 0px var(--spacing-md);
   }
   
   .logo h2 {
@@ -542,3 +543,4 @@
     animation: none !important;
   }
 }
+
