@@ -5,7 +5,9 @@ import About from './components/Aboutdoctor';
 import Testimonials from '../../components/features/Testimonials/TestimonialsList';
 import './Home.css';
 
+
 const Home = () => {
+  
   return (
     <div className="home-page">
       <Hero />

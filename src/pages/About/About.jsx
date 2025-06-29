@@ -8,6 +8,7 @@ import Specializations from './components/Specializations';
 import './components/About.css';
 
 const About = () => {
+  
   return (
     <div className="about-page">
       <DoctorHero />

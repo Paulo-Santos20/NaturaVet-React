@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Routes, Route, Navigate } from 'react-router-dom'
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import Header from './components/common/Header/Header'
 import Footer from './components/common/Footer/Footer'
 import Home from './pages/Home/Home'
@@ -15,29 +15,96 @@ import './App.css'
 function App() {
   const [user, setUser] = useState(null)
   const [isLoading, setIsLoading] = useState(true)
+  const location = useLocation()
 
+  // FORÇAR POSIÇÃO NO TOPO - sem animação
   useEffect(() => {
-    // Simular carregamento do usuário
-    const savedUser = localStorage.getItem('naturavet_user')
-    if (savedUser) {
+    console.log('🔄 Mudando para:', location.pathname)
+    
+    // Forçar posição imediatamente - SEM animação
+    const forceScrollToTop = () => {
+      // Desabilitar scroll suave temporariamente
+      const html = document.documentElement
+      const body = document.body
+      
+      // Salvar comportamento atual
+      const htmlBehavior = html.style.scrollBehavior
+      const bodyBehavior = body.style.scrollBehavior
+      
+      // Forçar scroll instantâneo
+      html.style.scrollBehavior = 'auto'
+      body.style.scrollBehavior = 'auto'
+      
+      // Múltiplas formas de forçar posição
+      window.scrollTo(0, 0)
+      html.scrollTop = 0
+      body.scrollTop = 0
+      window.pageYOffset = 0
+      
+      // Restaurar comportamento após um tempo
+      setTimeout(() => {
+        html.style.scrollBehavior = htmlBehavior
+        body.style.scrollBehavior = bodyBehavior
+      }, 100)
+      
+      console.log('✅ Posição forçada para o topo')
+    }
+    
+    // Executar ANTES da renderização
+    forceScrollToTop()
+    
+    // Executar DURANTE a renderização
+    const timer1 = setTimeout(forceScrollToTop, 0)
+    const timer2 = setTimeout(forceScrollToTop, 1)
+    
+    // Executar APÓS a renderização
+    requestAnimationFrame(() => {
+      forceScrollToTop()
+      requestAnimationFrame(forceScrollToTop)
+    })
+    
+    return () => {
+      clearTimeout(timer1)
+      clearTimeout(timer2)
+    }
+  }, [location.pathname])
+
+  // Carregamento do usuário
+  useEffect(() => {
+    const loadUser = async () => {
       try {
-        setUser(JSON.parse(savedUser))
+        const savedUser = localStorage.getItem('naturavet_user')
+        if (savedUser) {
+          const userData = JSON.parse(savedUser)
+          setUser(userData)
+        }
       } catch (error) {
         console.error('Erro ao carregar usuário:', error)
         localStorage.removeItem('naturavet_user')
+      } finally {
+        setIsLoading(false)
       }
     }
-    setIsLoading(false)
+
+    loadUser()
   }, [])
 
   const handleLogin = (userData) => {
-    setUser(userData)
-    localStorage.setItem('naturavet_user', JSON.stringify(userData))
+    try {
+      setUser(userData)
+      localStorage.setItem('naturavet_user', JSON.stringify(userData))
+    } catch (error) {
+      console.error('Erro ao fazer login:', error)
+    }
   }
 
   const handleLogout = () => {
-    setUser(null)
-    localStorage.removeItem('naturavet_user')
+    try {
+      setUser(null)
+      localStorage.removeItem('naturavet_user')
+    } catch (error) {
+      console.error('Erro ao fazer logout:', error)
+    }
   }
 
   if (isLoading) {
@@ -55,7 +122,6 @@ function App() {
       
       <main className="main-content">
         <Routes>
-          {/* Rotas públicas */}
           <Route path="/" element={<Home />} />
           <Route path="/sobre" element={<About />} />
           <Route path="/servicos" element={<Services />} />
@@ -63,7 +129,6 @@ function App() {
           <Route path="/contato" element={<Contact />} />
           <Route path="/blog" element={<Blog />} />
 
-          {/* Rota de login */}
           <Route 
             path="/login" 
             element={
@@ -75,7 +140,6 @@ function App() {
             } 
           />
 
-          {/* Rota protegida do dashboard */}
           <Route 
             path="/dashboard/*" 
             element={
@@ -87,7 +151,6 @@ function App() {
             } 
           />
 
-          {/* Rota de fallback */}
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </main>
