@@ -1,0 +1,226 @@
+/* ===== BLOG SEARCH ===== */
+.blog-search {
+  background: var(--color-white);
+  border-radius: 15px;
+  padding: 1.5rem;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(252, 90, 141, 0.1);
+}
+
+.search-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--color-text);
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.search-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.search-input-group {
+  position: relative;
+}
+
+.search-input {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  padding-right: 2.5rem;
+  border: 2px solid var(--color-gray-light);
+  border-radius: 8px;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+  background: var(--color-white);
+  font-family: inherit;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px rgba(252, 90, 141, 0.1);
+}
+
+.search-input::placeholder {
+  color: var(--color-gray);
+}
+
+.search-clear {
+  position: absolute;
+  right: 0.8rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  color: var(--color-gray);
+  cursor: pointer;
+  padding: 0;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+.search-clear:hover {
+  background: rgba(252, 90, 141, 0.1);
+  color: var(--color-accent);
+}
+
+.search-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.8rem 1rem;
+  background: linear-gradient(135deg, var(--color-accent), #e91e63);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: inherit;
+}
+
+.search-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(252, 90, 141, 0.3);
+}
+
+.btn-icon {
+  font-size: 1rem;
+}
+
+/* ===== VARIANTE HERO (MAIS LARGA E MENOS GROSSA) ===== */
+.blog-search.hero-variant {
+  padding: 0.3rem; /* Reduzido de 0.5rem */
+  border-radius: 12px; /* Menos arredondado */
+}
+
+.blog-search.hero-variant .search-form {
+  flex-direction: row;
+  align-items: stretch;
+  gap: 0;
+}
+
+.blog-search.hero-variant .search-input-group {
+  flex: 1;
+}
+
+.blog-search.hero-variant .search-input {
+  border: none;
+  background: transparent;
+  font-size: 1rem; /* Reduzido de 1.1rem */
+  padding: 0.9rem 1.3rem; /* Reduzido de 1.2rem x 1.5rem */
+  border-radius: 12px 0 0 12px; /* Menos arredondado */
+  min-height: 44px; /* Reduzido de 56px */
+}
+
+.blog-search.hero-variant .search-input:focus {
+  box-shadow: none;
+}
+
+.blog-search.hero-variant .search-clear {
+  right: 1rem; /* Reduzido de 1.2rem */
+  font-size: 1.2rem; /* Reduzido de 1.4rem */
+  width: 20px; /* Reduzido de 24px */
+  height: 20px; /* Reduzido de 24px */
+}
+
+.blog-search.hero-variant .search-btn {
+  flex-shrink: 0;
+  min-width: 120px; /* Reduzido de 140px */
+  border-radius: 0 12px 12px 0; /* Menos arredondado */
+  padding: 0.9rem 1.3rem; /* Reduzido de 1.2rem x 1.5rem */
+  font-size: 1rem; /* Reduzido de 1.1rem */
+  min-height: 44px; /* Reduzido de 56px */
+}
+
+.blog-search.hero-variant .search-btn .btn-icon {
+  font-size: 1rem; /* Reduzido de 1.2rem */
+}
+
+/* ===== RESPONSIVIDADE ===== */
+@media (max-width: 968px) {
+  .blog-search {
+    padding: 1.2rem;
+  }
+  
+  .search-form {
+    flex-direction: row;
+    align-items: stretch;
+  }
+  
+  .search-input-group {
+    flex: 1;
+  }
+  
+  .search-btn {
+    flex-shrink: 0;
+    min-width: 100px;
+  }
+  
+  /* Hero variant em tablet */
+  .blog-search.hero-variant .search-form {
+    flex-direction: column;
+    gap: 0.6rem; /* Reduzido de 0.8rem */
+  }
+  
+  .blog-search.hero-variant .search-input {
+    border-radius: 10px; /* Menos arredondado */
+    padding: 0.8rem 1.1rem; /* Reduzido */
+    font-size: 0.95rem; /* Reduzido */
+    min-height: 42px; /* Reduzido de 50px */
+  }
+  
+  .blog-search.hero-variant .search-btn {
+    border-radius: 10px; /* Menos arredondado */
+    min-width: auto;
+    width: 100%;
+    padding: 0.8rem 1.1rem; /* Reduzido */
+    font-size: 0.95rem; /* Reduzido */
+    min-height: 42px; /* Reduzido de 50px */
+  }
+}
+
+@media (max-width: 480px) {
+  .search-form {
+    flex-direction: column;
+  }
+  
+  .search-input {
+    padding: 0.7rem 0.9rem;
+    padding-right: 2.2rem;
+    font-size: 0.85rem;
+  }
+  
+  .search-btn {
+    padding: 0.7rem 0.9rem;
+    font-size: 0.85rem;
+  }
+  
+  /* Hero variant em mobile */
+  .blog-search.hero-variant .search-input {
+    padding: 0.7rem 1rem; /* Reduzido */
+    font-size: 0.9rem; /* Reduzido */
+    min-height: 40px; /* Reduzido de 46px */
+  }
+  
+  .blog-search.hero-variant .search-btn {
+    padding: 0.7rem 1rem; /* Reduzido */
+    font-size: 0.9rem; /* Reduzido */
+    min-height: 40px; /* Reduzido de 46px */
+  }
+  
+  .blog-search.hero-variant .search-clear {
+    right: 0.9rem; /* Reduzido */
+    font-size: 1.1rem; /* Reduzido */
+  }
+}

@@ -1,0 +1,110 @@
+/* ===== BLOG CATEGORIES ===== */
+.blog-categories {
+  background: var(--color-white);
+  border-radius: 15px;
+  padding: 1.5rem;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(252, 90, 141, 0.1);
+}
+
+.categories-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--color-text);
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.categories-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.category-item {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 0.8rem 1rem;
+  border: 2px solid transparent;
+  border-radius: 10px;
+  background: rgba(252, 90, 141, 0.05);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: left;
+  width: 100%;
+  font-size: 0.9rem;
+}
+
+.category-item:hover {
+  background: rgba(252, 90, 141, 0.1);
+  border-color: rgba(252, 90, 141, 0.2);
+  transform: translateX(3px);
+}
+
+.category-item.active {
+  background: linear-gradient(135deg, var(--color-accent), #e91e63);
+  color: white;
+  border-color: var(--color-accent);
+  box-shadow: 0 4px 15px rgba(252, 90, 141, 0.3);
+}
+
+.category-icon {
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+.category-name {
+  flex: 1;
+  font-weight: 500;
+}
+
+.category-count {
+  font-size: 0.8rem;
+  opacity: 0.8;
+  font-weight: 600;
+}
+
+.category-item.active .category-count {
+  opacity: 1;
+}
+
+/* ===== RESPONSIVIDADE ===== */
+@media (max-width: 968px) {
+  .blog-categories {
+    padding: 1.2rem;
+  }
+  
+  .categories-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 0.8rem;
+  }
+  
+  .category-item {
+    padding: 0.6rem 0.8rem;
+    justify-content: center;
+    text-align: center;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+  
+  .category-item:hover {
+    transform: translateY(-2px);
+  }
+}
+
+@media (max-width: 480px) {
+  .categories-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .category-item {
+    padding: 0.5rem;
+    font-size: 0.8rem;
+  }
+  
+  .category-icon {
+    font-size: 1rem;
+  }
+}
