@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../../hooks/AuthContext';
 import '../../../styles/components/Header.css';
@@ -9,6 +9,7 @@ const Header = () => {
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
+  const userMenuRef = useRef(null);
   
   // Usar o contexto de autenticação
   const { user, isAuthenticated, logout } = useAuth();
@@ -29,20 +30,49 @@ const Header = () => {
     setIsUserMenuOpen(false);
   }, [location]);
 
-  // Fechar menu ao clicar fora
+  // Fechar menu ao clicar fora - MELHORADO
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (!event.target.closest('.user-menu')) {
+      // Fechar user menu se clicar fora
+      if (userMenuRef.current && !userMenuRef.current.contains(event.target)) {
         setIsUserMenuOpen(false);
       }
+      
+      // Fechar mobile menu se clicar fora
       if (!event.target.closest('.nav') && !event.target.closest('.menu-toggle')) {
         setIsMobileMenuOpen(false);
       }
     };
 
-    document.addEventListener('click', handleClickOutside);
-    return () => document.removeEventListener('click', handleClickOutside);
-  }, []);
+    // Adicionar listener apenas se algum menu estiver aberto
+    if (isUserMenuOpen || isMobileMenuOpen) {
+      document.addEventListener('click', handleClickOutside);
+      document.addEventListener('touchstart', handleClickOutside); // Para mobile
+    }
+
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+      document.removeEventListener('touchstart', handleClickOutside);
+    };
+  }, [isUserMenuOpen, isMobileMenuOpen]);
+
+  // Fechar menu com ESC
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.key === 'Escape') {
+        setIsUserMenuOpen(false);
+        setIsMobileMenuOpen(false);
+      }
+    };
+
+    if (isUserMenuOpen || isMobileMenuOpen) {
+      document.addEventListener('keydown', handleKeyDown);
+    }
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isUserMenuOpen, isMobileMenuOpen]);
 
   const navigationItems = [
     { path: '/', label: 'Início' },
@@ -63,16 +93,25 @@ const Header = () => {
 
   const handleMobileMenuToggle = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
+    setIsUserMenuOpen(false); // Fechar user menu se abrir mobile menu
   };
 
-  const handleUserMenuToggle = () => {
+  const handleUserMenuToggle = (event) => {
+    event.stopPropagation(); // Prevenir propagação do evento
     setIsUserMenuOpen(!isUserMenuOpen);
+    setIsMobileMenuOpen(false); // Fechar mobile menu se abrir user menu
+  };
+
+  const handleDropdownItemClick = () => {
+    setIsUserMenuOpen(false);
   };
 
   const handleLogout = () => {
     setIsUserMenuOpen(false);
-    logout();
-    navigate('/');
+    if (window.confirm('Tem certeza que deseja sair?')) {
+      logout();
+      navigate('/');
+    }
   };
 
   const getUserTypeLabel = (userRole) => {
@@ -85,13 +124,11 @@ const Header = () => {
     return labels[userRole] || 'Usuário';
   };
 
-  // Debug: mostrar a rota atual
-  console.log('Rota atual:', location.pathname);
-  console.log('Usuário logado:', user);
-  console.log('Está autenticado:', isAuthenticated);
+  // Verificar se está na página do dashboard
+  const isDashboardPage = location.pathname.startsWith('/dashboard');
 
   return (
-    <header className={`header ${isScrolled ? 'scrolled' : ''}`}>
+    <header className={`header ${isScrolled ? 'scrolled' : ''} ${isDashboardPage ? 'dashboard-header' : ''}`}>
       <div className="nav-wrapper">
         <div className="logo">
           <Link to="/">
@@ -99,31 +136,39 @@ const Header = () => {
           </Link>
         </div>
 
-        <nav className={`nav ${isMobileMenuOpen ? 'nav-open' : ''}`}>
-          {navigationItems.map((item) => {
-            const isActive = isActivePath(item.path);
-            console.log(`${item.label} (${item.path}):`, isActive); // Debug
-            
-            return (
-              <Link
-                key={item.path}
-                to={item.path}
-                className={isActive ? 'active' : ''}
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                {item.label}
-              </Link>
-            );
-          })}
-          
-          {/* Área de usuário */}
+        {/* Mostrar navegação apenas se não estiver no dashboard */}
+        {!isDashboardPage && (
+          <nav className={`nav ${isMobileMenuOpen ? 'nav-open' : ''}`}>
+            {navigationItems.map((item) => {
+              const isActive = isActivePath(item.path);
+              
+              return (
+                <Link
+                  key={item.path}
+                  to={item.path}
+                  className={isActive ? 'active' : ''}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  {item.label}
+                </Link>
+              );
+            })}
+          </nav>
+        )}
+
+        {/* Área de usuário */}
+        <div className="header-user-area">
           {isAuthenticated && user ? (
-            <div className={`user-menu ${isUserMenuOpen ? 'open' : ''}`}>
+            <div 
+              ref={userMenuRef}
+              className={`user-menu ${isUserMenuOpen ? 'open' : ''}`}
+            >
               <button 
                 className="user-button"
                 onClick={handleUserMenuToggle}
                 aria-expanded={isUserMenuOpen}
                 aria-haspopup="true"
+                aria-label="Menu do usuário"
               >
                 <div className="user-avatar">
                   {user.name?.charAt(0)?.toUpperCase() || 'U'}
@@ -136,41 +181,59 @@ const Header = () => {
               </button>
 
               <div className={`user-dropdown ${isUserMenuOpen ? 'open' : ''}`}>
-                <Link 
-                  to="/dashboard" 
-                  className="dropdown-item"
-                  onClick={() => setIsUserMenuOpen(false)}
-                >
-                  <span>📊</span>
-                  Dashboard
-                </Link>
+                {!isDashboardPage && (
+                  <Link 
+                    to="/dashboard" 
+                    className="dropdown-item"
+                    onClick={handleDropdownItemClick}
+                  >
+                    <span>📊</span>
+                    Dashboard
+                  </Link>
+                )}
+                
+                {isDashboardPage && (
+                  <Link 
+                    to="/" 
+                    className="dropdown-item"
+                    onClick={handleDropdownItemClick}
+                  >
+                    <span>🌐</span>
+                    Voltar ao Site
+                  </Link>
+                )}
+                
                 <Link 
                   to="/dashboard/profile" 
                   className="dropdown-item"
-                  onClick={() => setIsUserMenuOpen(false)}
+                  onClick={handleDropdownItemClick}
                 >
                   <span>👤</span>
                   Meu Perfil
                 </Link>
+                
                 {user.pets && user.pets.length > 0 && (
                   <Link 
                     to="/dashboard/pets" 
                     className="dropdown-item"
-                    onClick={() => setIsUserMenuOpen(false)}
+                    onClick={handleDropdownItemClick}
                   >
                     <span>🐾</span>
                     Meus Pets
                   </Link>
                 )}
+                
                 <Link 
                   to="/dashboard/settings" 
                   className="dropdown-item"
-                  onClick={() => setIsUserMenuOpen(false)}
+                  onClick={handleDropdownItemClick}
                 >
                   <span>⚙️</span>
                   Configurações
                 </Link>
+                
                 <div className="dropdown-divider"></div>
+                
                 <button onClick={handleLogout} className="dropdown-item logout">
                   <span>🚪</span>
                   Sair
@@ -183,18 +246,20 @@ const Header = () => {
               <span>Entrar</span>
             </Link>
           )}
-        </nav>
+        </div>
 
-        <button 
-          className={`menu-toggle ${isMobileMenuOpen ? 'active' : ''}`}
-          onClick={handleMobileMenuToggle}
-          aria-expanded={isMobileMenuOpen}
-          aria-label="Menu de navegação"
-        >
-          <span></span>
-          <span></span>
-          <span></span>
-        </button>
+        {!isDashboardPage && (
+          <button 
+            className={`menu-toggle ${isMobileMenuOpen ? 'active' : ''}`}
+            onClick={handleMobileMenuToggle}
+            aria-expanded={isMobileMenuOpen}
+            aria-label="Menu de navegação"
+          >
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+        )}
       </div>
     </header>
   );
