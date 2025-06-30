@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom'
+import { AuthProvider } from './hooks/AuthContext'
 import Header from './components/common/Header/Header'
 import Footer from './components/common/Footer/Footer'
 import Home from './pages/Home/Home'
@@ -12,9 +13,8 @@ import Login from './pages/Login/Login'
 import Dashboard from './pages/Dashboard/Dashboard'
 import './App.css'
 
-function App() {
-  const [user, setUser] = useState(null)
-  const [isLoading, setIsLoading] = useState(true)
+// Componente interno que usa o contexto
+function AppContent() {
   const location = useLocation()
 
   // FORÇAR POSIÇÃO NO TOPO - sem animação
@@ -69,56 +69,9 @@ function App() {
     }
   }, [location.pathname])
 
-  // Carregamento do usuário
-  useEffect(() => {
-    const loadUser = async () => {
-      try {
-        const savedUser = localStorage.getItem('naturavet_user')
-        if (savedUser) {
-          const userData = JSON.parse(savedUser)
-          setUser(userData)
-        }
-      } catch (error) {
-        console.error('Erro ao carregar usuário:', error)
-        localStorage.removeItem('naturavet_user')
-      } finally {
-        setIsLoading(false)
-      }
-    }
-
-    loadUser()
-  }, [])
-
-  const handleLogin = (userData) => {
-    try {
-      setUser(userData)
-      localStorage.setItem('naturavet_user', JSON.stringify(userData))
-    } catch (error) {
-      console.error('Erro ao fazer login:', error)
-    }
-  }
-
-  const handleLogout = () => {
-    try {
-      setUser(null)
-      localStorage.removeItem('naturavet_user')
-    } catch (error) {
-      console.error('Erro ao fazer logout:', error)
-    }
-  }
-
-  if (isLoading) {
-    return (
-      <div className="loading-screen">
-        <div className="loading-spinner"></div>
-        <p>Carregando NaturaVet...</p>
-      </div>
-    )
-  }
-
   return (
     <div className="App">
-      <Header user={user} onLogout={handleLogout} />
+      <Header />
       
       <main className="main-content">
         <Routes>
@@ -128,35 +81,23 @@ function App() {
           <Route path="/depoimentos" element={<Testimonials />} />
           <Route path="/contato" element={<Contact />} />
           <Route path="/blog" element={<Blog />} />
-
-          <Route 
-            path="/login" 
-            element={
-              user ? (
-                <Navigate to="/dashboard" replace />
-              ) : (
-                <Login onLogin={handleLogin} />
-              )
-            } 
-          />
-
-          <Route 
-            path="/dashboard/*" 
-            element={
-              user ? (
-                <Dashboard user={user} onLogout={handleLogout} />
-              ) : (
-                <Navigate to="/login" replace />
-              )
-            } 
-          />
-
+          <Route path="/login" element={<Login />} />
+          <Route path="/dashboard/*" element={<Dashboard />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </main>
 
       <Footer />
     </div>
+  )
+}
+
+// Componente principal com AuthProvider
+function App() {
+  return (
+    <AuthProvider>
+      <AppContent />
+    </AuthProvider>
   )
 }
 

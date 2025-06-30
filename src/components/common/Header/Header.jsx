@@ -1,12 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useAuth } from '../../../hooks/AuthContext';
 import '../../../styles/components/Header.css';
 
-const Header = ({ user, onLogout }) => {
+const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
+  
+  // Usar o contexto de autenticação
+  const { user, isAuthenticated, logout } = useAuth();
 
   // Detectar scroll para efeito no header
   useEffect(() => {
@@ -66,21 +71,24 @@ const Header = ({ user, onLogout }) => {
 
   const handleLogout = () => {
     setIsUserMenuOpen(false);
-    onLogout();
+    logout();
+    navigate('/');
   };
 
-  const getUserTypeLabel = (userType) => {
+  const getUserTypeLabel = (userRole) => {
     const labels = {
       admin: 'Administrador',
       consultant: 'Consultor',
       editor: 'Editor',
       client: 'Cliente'
     };
-    return labels[userType] || 'Usuário';
+    return labels[userRole] || 'Usuário';
   };
 
   // Debug: mostrar a rota atual
   console.log('Rota atual:', location.pathname);
+  console.log('Usuário logado:', user);
+  console.log('Está autenticado:', isAuthenticated);
 
   return (
     <header className={`header ${isScrolled ? 'scrolled' : ''}`}>
@@ -109,7 +117,7 @@ const Header = ({ user, onLogout }) => {
           })}
           
           {/* Área de usuário */}
-          {user ? (
+          {isAuthenticated && user ? (
             <div className={`user-menu ${isUserMenuOpen ? 'open' : ''}`}>
               <button 
                 className="user-button"
@@ -122,24 +130,47 @@ const Header = ({ user, onLogout }) => {
                 </div>
                 <div className="user-info">
                   <span className="user-name">{user.name || 'Usuário'}</span>
-                  <span className="user-role">{getUserTypeLabel(user.userType)}</span>
+                  <span className="user-role">{getUserTypeLabel(user.role)}</span>
                 </div>
                 <span className="dropdown-arrow">▼</span>
               </button>
 
               <div className={`user-dropdown ${isUserMenuOpen ? 'open' : ''}`}>
-                <Link to="/dashboard" className="dropdown-item">
+                <Link 
+                  to="/dashboard" 
+                  className="dropdown-item"
+                  onClick={() => setIsUserMenuOpen(false)}
+                >
                   <span>📊</span>
                   Dashboard
                 </Link>
-                <Link to="/dashboard/profile" className="dropdown-item">
+                <Link 
+                  to="/dashboard/profile" 
+                  className="dropdown-item"
+                  onClick={() => setIsUserMenuOpen(false)}
+                >
                   <span>👤</span>
                   Meu Perfil
                 </Link>
-                <Link to="/dashboard/settings" className="dropdown-item">
+                {user.pets && user.pets.length > 0 && (
+                  <Link 
+                    to="/dashboard/pets" 
+                    className="dropdown-item"
+                    onClick={() => setIsUserMenuOpen(false)}
+                  >
+                    <span>🐾</span>
+                    Meus Pets
+                  </Link>
+                )}
+                <Link 
+                  to="/dashboard/settings" 
+                  className="dropdown-item"
+                  onClick={() => setIsUserMenuOpen(false)}
+                >
                   <span>⚙️</span>
                   Configurações
                 </Link>
+                <div className="dropdown-divider"></div>
                 <button onClick={handleLogout} className="dropdown-item logout">
                   <span>🚪</span>
                   Sair
