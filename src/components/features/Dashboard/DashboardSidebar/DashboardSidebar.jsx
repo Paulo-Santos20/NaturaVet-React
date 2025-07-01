@@ -2,7 +2,7 @@ import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import './DashboardSidebar.css';
 
-const DashboardSidebar = ({ user, collapsed, mobileOpen, onToggleMobile }) => {
+const DashboardSidebar = ({ user, collapsed, mobileOpen, onToggleMobile, onToggleSidebar }) => {
   const location = useLocation();
 
   const getMenuItems = () => {
@@ -12,16 +12,6 @@ const DashboardSidebar = ({ user, collapsed, mobileOpen, onToggleMobile }) => {
         icon: '📊',
         label: 'Dashboard',
         exact: true
-      },
-      {
-        path: '/dashboard/profile',
-        icon: '👤',
-        label: 'Meu Perfil'
-      },
-      {
-        path: '/dashboard/settings',
-        icon: '⚙️',
-        label: 'Configurações'
       }
     ];
 
@@ -33,26 +23,46 @@ const DashboardSidebar = ({ user, collapsed, mobileOpen, onToggleMobile }) => {
           label: 'Usuários'
         },
         {
+          path: '/dashboard/pets',
+          icon: '🐾',
+          label: 'Pets'
+        },
+        {
+          path: '/dashboard/clients',
+          icon: '👤',
+          label: 'Clientes'
+        },
+        {
+          path: '/dashboard/appointments',
+          icon: '📅',
+          label: 'Agendamentos'
+        },
+        {
           path: '/dashboard/analytics',
           icon: '📈',
           label: 'Analytics'
         },
         {
-          path: '/dashboard/system',
-          icon: '🔧',
-          label: 'Sistema'
+          path: '/dashboard/settings',
+          icon: '⚙️',
+          label: 'Configurações'
         }
       ],
       consultant: [
         {
           path: '/dashboard/clients',
           icon: '👥',
-          label: 'Clientes'
+          label: 'Meus Clientes'
         },
         {
-          path: '/dashboard/schedule',
+          path: '/dashboard/appointments',
           icon: '📅',
           label: 'Agenda'
+        },
+        {
+          path: '/dashboard/pets',
+          icon: '🐾',
+          label: 'Pets'
         },
         {
           path: '/dashboard/records',
@@ -86,7 +96,7 @@ const DashboardSidebar = ({ user, collapsed, mobileOpen, onToggleMobile }) => {
         {
           path: '/dashboard/appointments',
           icon: '📅',
-          label: 'Consultas'
+          label: 'Agendamentos'
         },
         {
           path: '/dashboard/reports',
@@ -97,9 +107,8 @@ const DashboardSidebar = ({ user, collapsed, mobileOpen, onToggleMobile }) => {
     };
 
     return [
-      ...commonItems.slice(0, 1), // Dashboard
-      ...(roleSpecificItems[user.role] || []),
-      ...commonItems.slice(1) // Profile e Settings
+      ...commonItems,
+      ...(roleSpecificItems[user.role] || [])
     ];
   };
 
@@ -147,6 +156,17 @@ const DashboardSidebar = ({ user, collapsed, mobileOpen, onToggleMobile }) => {
             <span className="brand-icon">🌿</span>
             {!collapsed && <span className="brand-text">NaturaVet</span>}
           </Link>
+          
+          {/* Botão de recolher - Desktop */}
+          <button
+            className="sidebar-toggle-btn desktop-only"
+            onClick={onToggleSidebar}
+            title={collapsed ? 'Expandir menu' : 'Recolher menu'}
+          >
+            <span className="toggle-icon">
+              {collapsed ? '→' : '←'}
+            </span>
+          </button>
         </div>
 
         {/* User Info */}

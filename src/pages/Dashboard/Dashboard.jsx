@@ -3,10 +3,30 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import { useAuth } from '../../hooks/AuthContext';
 import DashboardSidebar from '../../components/features/Dashboard/DashboardSidebar/DashboardSidebar';
 import DashboardHeader from '../../components/features/Dashboard/DashboardHeader/DashboardHeader';
+
+// Importar componentes das abas
 import AdminDashboard from './Admin/AdminDashboard';
+import UserManagement from './Admin/UserManagement/UserManagement';
+import PetManagement from './Admin/PetManagement/PetManagement';
+import ClientManagement from './Admin/ClientManagement/ClientManagement';
+import AppointmentManagement from './Admin/AppointmentManagement/AppointmentManagement';
+import Analytics from './Admin/Analytics/Analytics';
+import Settings from './Admin/Settings/Settings';
+
 import EditorDashboard from './Editor/EditorDashboard';
+import ContentManagement from './Editor/ContentManagement/ContentManagement';
+
 import ConsultantDashboard from './Consultant/ConsultantDashboard';
+import Schedule from './Consultant/Schedule/Schedule';
+import Records from './Consultant/Records/Records';
+
 import ClientDashboard from './Client/ClientDashboard';
+import PetProfile from './Client/PetProfile/PetProfile';
+import Appointments from './Client/Appointments/Appointments';
+import Reports from './Client/Reports/Reports';
+
+import Profile from './Profile/Profile';
+
 import '../../styles/pages/Dashboard.css';
 
 const Dashboard = () => {
@@ -27,13 +47,11 @@ const Dashboard = () => {
   };
 
   const handleLogout = () => {
-    if (window.confirm('Tem certeza que deseja sair?')) {
-      logout();
-    }
+    logout();
   };
 
   // Renderizar dashboard específico baseado no role do usuário
-  const renderDashboardContent = () => {
+  const renderDashboardHome = () => {
     switch (user.role) {
       case 'admin':
         return <AdminDashboard />;
@@ -61,59 +79,68 @@ const Dashboard = () => {
         collapsed={sidebarCollapsed}
         mobileOpen={mobileMenuOpen}
         onToggleMobile={toggleMobileMenu}
+        onToggleSidebar={toggleSidebar}
       />
 
       {/* Main Content */}
       <div className={`dashboard-main ${sidebarCollapsed ? 'sidebar-collapsed' : ''}`}>
-        {/* Header */}
+        {/* Header Único */}
         <DashboardHeader 
           user={user}
-          onToggleSidebar={toggleSidebar}
           onToggleMobileMenu={toggleMobileMenu}
           onLogout={handleLogout}
-          sidebarCollapsed={sidebarCollapsed}
         />
 
         {/* Content Area */}
         <div className="dashboard-content">
           <Routes>
-            <Route path="/" element={renderDashboardContent()} />
-            <Route path="/profile" element={<div>Perfil do Usuário</div>} />
-            <Route path="/settings" element={<div>Configurações</div>} />
-            <Route path="/pets" element={<div>Meus Pets</div>} />
+            {/* Dashboard Home */}
+            <Route path="/" element={renderDashboardHome()} />
             
-            {/* Rotas específicas por role */}
+            {/* Perfil - Comum para todos */}
+            <Route path="/profile" element={<Profile />} />
+            
+            {/* Rotas específicas para ADMIN */}
             {user.role === 'admin' && (
               <>
-                <Route path="/users" element={<div>Gerenciar Usuários</div>} />
-                <Route path="/analytics" element={<div>Analytics</div>} />
-                <Route path="/system" element={<div>Configurações do Sistema</div>} />
+                <Route path="/users" element={<UserManagement />} />
+                <Route path="/pets" element={<PetManagement />} />
+                <Route path="/clients" element={<ClientManagement />} />
+                <Route path="/appointments" element={<AppointmentManagement />} />
+                <Route path="/analytics" element={<Analytics />} />
+                <Route path="/settings" element={<Settings />} />
               </>
             )}
             
+            {/* Rotas específicas para CONSULTANT */}
             {user.role === 'consultant' && (
               <>
-                <Route path="/clients" element={<div>Meus Clientes</div>} />
-                <Route path="/schedule" element={<div>Agenda</div>} />
-                <Route path="/records" element={<div>Prontuários</div>} />
+                <Route path="/clients" element={<ClientManagement />} />
+                <Route path="/appointments" element={<Schedule />} />
+                <Route path="/pets" element={<PetManagement />} />
+                <Route path="/records" element={<Records />} />
               </>
             )}
             
+            {/* Rotas específicas para EDITOR */}
             {user.role === 'editor' && (
               <>
-                <Route path="/content" element={<div>Gerenciar Conteúdo</div>} />
-                <Route path="/blog" element={<div>Blog</div>} />
-                <Route path="/comments" element={<div>Comentários</div>} />
+                <Route path="/content" element={<ContentManagement />} />
+                <Route path="/blog" element={<div>Gerenciar Blog</div>} />
+                <Route path="/comments" element={<div>Moderar Comentários</div>} />
               </>
             )}
             
+            {/* Rotas específicas para CLIENT */}
             {user.role === 'client' && (
               <>
-                <Route path="/appointments" element={<div>Minhas Consultas</div>} />
-                <Route path="/reports" element={<div>Relatórios</div>} />
+                <Route path="/pets" element={<PetProfile />} />
+                <Route path="/appointments" element={<Appointments />} />
+                <Route path="/reports" element={<Reports />} />
               </>
             )}
             
+            {/* Redirect para dashboard se rota não encontrada */}
             <Route path="*" element={<Navigate to="/dashboard" replace />} />
           </Routes>
         </div>

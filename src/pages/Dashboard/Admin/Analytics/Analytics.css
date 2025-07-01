@@ -1,0 +1,361 @@
+/* ===== ANALYTICS PAGE ===== */
+.analytics {
+  padding: 0;
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(252, 90, 141, 0.1);
+}
+
+.header-content h1 {
+  font-size: 2rem;
+  color: var(--color-text);
+  margin-bottom: 0.5rem;
+}
+
+.header-content p {
+  color: var(--color-gray-dark);
+  font-size: 1.1rem;
+}
+
+.period-select {
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--color-gray-light);
+  border-radius: 8px;
+  font-size: 0.9rem;
+  background: var(--color-white);
+  color: var(--color-text);
+}
+
+.period-select:focus {
+  outline: none;
+  border-color: var(--color-accent);
+}
+
+/* ===== KPI GRID ===== */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.kpi-card {
+  background: var(--color-white);
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(252, 90, 141, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.kpi-card:hover {
+  transform: translateY(-2px);
+}
+
+.kpi-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.kpi-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+}
+
+.kpi-icon.users {
+  background: rgba(52, 152, 219, 0.1);
+}
+
+.kpi-icon.pets {
+  background: rgba(46, 204, 113, 0.1);
+}
+
+.kpi-icon.consultations {
+  background: rgba(155, 89, 182, 0.1);
+}
+
+.kpi-icon.revenue {
+  background: rgba(241, 196, 15, 0.1);
+}
+
+.kpi-trend {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 0.25rem 0.5rem;
+  border-radius: 20px;
+}
+
+.kpi-trend.positive {
+  background: rgba(46, 204, 113, 0.1);
+  color: #27ae60;
+}
+
+.kpi-trend.negative {
+  background: rgba(231, 76, 60, 0.1);
+  color: #e74c3c;
+}
+
+.kpi-content h3 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--color-text);
+  margin-bottom: 0.25rem;
+}
+
+.kpi-content p {
+  color: var(--color-gray-dark);
+  font-size: 0.9rem;
+}
+
+/* ===== CHARTS SECTION ===== */
+.charts-section {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.chart-card {
+  background: var(--color-white);
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(252, 90, 141, 0.1);
+}
+
+.chart-header {
+  margin-bottom: 1.5rem;
+}
+
+.chart-header h3 {
+  font-size: 1.3rem;
+  color: var(--color-text);
+  margin-bottom: 0.25rem;
+}
+
+.chart-header p {
+  color: var(--color-gray-dark);
+  font-size: 0.9rem;
+}
+
+.chart-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 200px;
+  background: rgba(252, 90, 141, 0.02);
+  border: 2px dashed rgba(252, 90, 141, 0.2);
+  border-radius: 8px;
+  text-align: center;
+}
+
+.chart-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  opacity: 0.5;
+}
+
+.chart-placeholder p {
+  color: var(--color-gray-dark);
+  font-size: 0.9rem;
+}
+
+/* ===== ACTIVITY SECTION ===== */
+.activity-section {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 1.5rem;
+}
+
+.activity-card,
+.stats-card {
+  background: var(--color-white);
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(252, 90, 141, 0.1);
+}
+
+.activity-header,
+.stats-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(252, 90, 141, 0.1);
+}
+
+.activity-header h3,
+.stats-header h3 {
+  font-size: 1.3rem;
+  color: var(--color-text);
+}
+
+.activity-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.activity-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  background: rgba(252, 90, 141, 0.02);
+  border-radius: 8px;
+  border-left: 4px solid transparent;
+  transition: all 0.3s ease;
+}
+
+.activity-item:hover {
+  background: rgba(252, 90, 141, 0.05);
+  border-left-color: var(--color-accent);
+}
+
+.activity-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+.activity-icon.new-user {
+  background: rgba(52, 152, 219, 0.1);
+}
+
+.activity-icon.consultation {
+  background: rgba(155, 89, 182, 0.1);
+}
+
+.activity-icon.pet-registered {
+  background: rgba(46, 204, 113, 0.1);
+}
+
+.activity-icon.payment {
+  background: rgba(241, 196, 15, 0.1);
+}
+
+.activity-content {
+  flex: 1;
+}
+
+.activity-content p {
+  color: var(--color-text);
+  font-size: 0.9rem;
+  margin-bottom: 0.25rem;
+}
+
+.activity-time {
+  color: var(--color-gray-dark);
+  font-size: 0.8rem;
+}
+
+/* ===== STATS LIST ===== */
+.stats-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.stat-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid rgba(252, 90, 141, 0.05);
+}
+
+.stat-item:last-child {
+  border-bottom: none;
+}
+
+.stat-label {
+  color: var(--color-gray-dark);
+  font-size: 0.9rem;
+}
+
+.stat-value {
+  color: var(--color-text);
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 1024px) {
+  .activity-section {
+    grid-template-columns: 1fr;
+  }
+  
+  .charts-section {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .page-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+  }
+
+  .kpi-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .charts-section {
+    grid-template-columns: 1fr;
+  }
+
+  .chart-placeholder {
+    height: 150px;
+  }
+
+  .activity-item {
+    padding: 0.75rem;
+  }
+
+  .activity-icon {
+    width: 35px;
+    height: 35px;
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .kpi-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .activity-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .activity-content {
+    width: 100%;
+  }
+}
