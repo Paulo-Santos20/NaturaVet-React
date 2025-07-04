@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useAuth } from '../../../../hooks/userAuth'; // Hook de autenticação
+import { useAuth } from '../../../../hooks/useAuth'; // Hook de autenticação
 import './TestimonialForm.css';
 
 const TestimonialForm = ({ onSubmit, onClose }) => {

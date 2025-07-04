@@ -71,3 +71,112 @@
     display: block;
   }
 }
+
+/* Dashboard Loading */
+.dashboard-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: #f8f9fa;
+}
+
+.loading-spinner {
+  font-size: 1.2rem;
+  color: #FC5A8D;
+  text-align: center;
+}
+
+/* Dashboard Layout */
+.dashboard-layout {
+  display: flex;
+  min-height: 100vh;
+  background: #f8f9fa;
+}
+
+.dashboard-main {
+  flex: 1;
+  margin-left: 280px;
+  transition: margin-left 0.3s ease;
+}
+
+.dashboard-main.sidebar-collapsed {
+  margin-left: 80px;
+}
+
+.dashboard-content {
+  padding: 2rem;
+}
+
+/* Dashboard Error */
+.dashboard-error {
+  background: white;
+  padding: 3rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  text-align: center;
+  max-width: 500px;
+  margin: 2rem auto;
+}
+
+.dashboard-error h2 {
+  color: #e74c3c;
+  margin-bottom: 1rem;
+}
+
+.dashboard-error p {
+  color: #666;
+  margin-bottom: 0.5rem;
+}
+
+/* Dashboard Fallback */
+.dashboard-fallback {
+  background: white;
+  padding: 3rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  text-align: center;
+  max-width: 600px;
+  margin: 2rem auto;
+}
+
+.dashboard-fallback h2 {
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+.dashboard-fallback p {
+  color: #666;
+  font-style: italic;
+}
+
+/* Mobile Overlay */
+.mobile-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 999;
+  display: none;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .dashboard-main {
+    margin-left: 0;
+  }
+  
+  .dashboard-main.sidebar-collapsed {
+    margin-left: 0;
+  }
+  
+  .mobile-overlay {
+    display: block;
+  }
+  
+  .dashboard-content {
+    padding: 1rem;
+  }
+}

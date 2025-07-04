@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom'
-import { AuthProvider } from './hooks/AuthContext'
+import { AuthProvider } from './context/AuthContext';
 import Header from './components/common/Header/Header'
 import Footer from './components/common/Footer/Footer'
 import Home from './pages/Home/Home'
@@ -47,7 +47,6 @@ function AppContent() {
         body.style.scrollBehavior = bodyBehavior
       }, 100)
       
-      console.log('✅ Posição forçada para o topo')
     }
     
     // Executar ANTES da renderização

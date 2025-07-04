@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { useAuth } from '../../../../hooks/AuthContext';
+import { useAuth } from '../../../../hooks/useAuth';
+
 import './Appointments.css';
 
 const Appointments = () => {

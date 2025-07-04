@@ -1,158 +1,104 @@
 import React, { useState } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
-import { useAuth } from '../../hooks/AuthContext';
+import { useAuth } from '../../hooks/useAuth';
 import DashboardSidebar from '../../components/features/Dashboard/DashboardSidebar/DashboardSidebar';
-import DashboardHeader from '../../components/features/Dashboard/DashboardHeader/DashboardHeader';
 
 // Importar componentes das abas
 import AdminDashboard from './Admin/AdminDashboard';
 import UserManagement from './Admin/UserManagement/UserManagement';
 import PetManagement from './Admin/PetManagement/PetManagement';
-import ClientManagement from './Admin/ClientManagement/ClientManagement';
-import AppointmentManagement from './Admin/AppointmentManagement/AppointmentManagement';
-import Analytics from './Admin/Analytics/Analytics';
-import Settings from './Admin/Settings/Settings';
-
-import EditorDashboard from './Editor/EditorDashboard';
-import ContentManagement from './Editor/ContentManagement/ContentManagement';
-
-import ConsultantDashboard from './Consultant/ConsultantDashboard';
-import Schedule from './Consultant/Schedule/Schedule';
-import Records from './Consultant/Records/Records';
-
-import ClientDashboard from './Client/ClientDashboard';
-import PetProfile from './Client/PetProfile/PetProfile';
-import Appointments from './Client/Appointments/Appointments';
-import Reports from './Client/Reports/Reports';
-
 import Profile from './Profile/Profile';
 
-import '../../styles/pages/Dashboard.css';
+// Componentes temporários para outras abas
+const ClientManagement = () => <div style={{ padding: '2rem' }}><h1>👥 Gerenciamento de Clientes</h1><p>Em desenvolvimento...</p></div>;
+const AppointmentManagement = () => <div style={{ padding: '2rem' }}><h1>📅 Gerenciamento de Agendamentos</h1><p>Em desenvolvimento...</p></div>;
+const Analytics = () => <div style={{ padding: '2rem' }}><h1>📊 Analytics</h1><p>Em desenvolvimento...</p></div>;
+const Settings = () => <div style={{ padding: '2rem' }}><h1>⚙️ Configurações</h1><p>Em desenvolvimento...</p></div>;
 
 const Dashboard = () => {
-  const { user, logout } = useAuth();
+  const { user, logout, loading } = useAuth();
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  console.log('🔍 Dashboard: Renderizando...', { user: user?.name, loading });
+
+  if (loading) {
+    return (
+      <div style={{ 
+        display: 'flex', 
+        justifyContent: 'center', 
+        alignItems: 'center', 
+        height: '100vh',
+        background: '#f8f9fa'
+      }}>
+        <div style={{ 
+          background: 'white',
+          padding: '2rem',
+          borderRadius: '8px',
+          boxShadow: '0 2px 10px rgba(0,0,0,0.1)'
+        }}>
+          Carregando dashboard...
+        </div>
+      </div>
+    );
+  }
 
   if (!user) {
+    console.log('🔍 Dashboard: Usuário não encontrado, redirecionando...');
     return <Navigate to="/login" replace />;
   }
 
   const toggleSidebar = () => {
+    console.log('🔍 Dashboard: Toggle sidebar', { collapsed: !sidebarCollapsed });
     setSidebarCollapsed(!sidebarCollapsed);
   };
 
-  const toggleMobileMenu = () => {
-    setMobileMenuOpen(!mobileMenuOpen);
-  };
-
-  const handleLogout = () => {
-    logout();
-  };
-
-  // Renderizar dashboard específico baseado no role do usuário
   const renderDashboardHome = () => {
     switch (user.role) {
       case 'admin':
         return <AdminDashboard />;
-      case 'editor':
-        return <EditorDashboard />;
-      case 'consultant':
-        return <ConsultantDashboard />;
-      case 'client':
-        return <ClientDashboard />;
       default:
-        return (
-          <div className="dashboard-error">
-            <h2>Tipo de usuário não reconhecido</h2>
-            <p>Entre em contato com o suporte.</p>
-          </div>
-        );
+        return <AdminDashboard />;
     }
   };
 
   return (
-    <div className="dashboard-layout">
+    <div style={{ 
+      display: 'flex', 
+      minHeight: '100vh', 
+      background: '#f8f9fa' 
+    }}>
       {/* Sidebar */}
       <DashboardSidebar 
         user={user}
         collapsed={sidebarCollapsed}
-        mobileOpen={mobileMenuOpen}
-        onToggleMobile={toggleMobileMenu}
         onToggleSidebar={toggleSidebar}
       />
 
       {/* Main Content */}
-      <div className={`dashboard-main ${sidebarCollapsed ? 'sidebar-collapsed' : ''}`}>
-        {/* Header Único */}
-        <DashboardHeader 
-          user={user}
-          onToggleMobileMenu={toggleMobileMenu}
-          onLogout={handleLogout}
-        />
-
-        {/* Content Area */}
-        <div className="dashboard-content">
-          <Routes>
-            {/* Dashboard Home */}
-            <Route path="/" element={renderDashboardHome()} />
-            
-            {/* Perfil - Comum para todos */}
-            <Route path="/profile" element={<Profile />} />
-            
-            {/* Rotas específicas para ADMIN */}
-            {user.role === 'admin' && (
-              <>
-                <Route path="/users" element={<UserManagement />} />
-                <Route path="/pets" element={<PetManagement />} />
-                <Route path="/clients" element={<ClientManagement />} />
-                <Route path="/appointments" element={<AppointmentManagement />} />
-                <Route path="/analytics" element={<Analytics />} />
-                <Route path="/settings" element={<Settings />} />
-              </>
-            )}
-            
-            {/* Rotas específicas para CONSULTANT */}
-            {user.role === 'consultant' && (
-              <>
-                <Route path="/clients" element={<ClientManagement />} />
-                <Route path="/appointments" element={<Schedule />} />
-                <Route path="/pets" element={<PetManagement />} />
-                <Route path="/records" element={<Records />} />
-              </>
-            )}
-            
-            {/* Rotas específicas para EDITOR */}
-            {user.role === 'editor' && (
-              <>
-                <Route path="/content" element={<ContentManagement />} />
-                <Route path="/blog" element={<div>Gerenciar Blog</div>} />
-                <Route path="/comments" element={<div>Moderar Comentários</div>} />
-              </>
-            )}
-            
-            {/* Rotas específicas para CLIENT */}
-            {user.role === 'client' && (
-              <>
-                <Route path="/pets" element={<PetProfile />} />
-                <Route path="/appointments" element={<Appointments />} />
-                <Route path="/reports" element={<Reports />} />
-              </>
-            )}
-            
-            {/* Redirect para dashboard se rota não encontrada */}
-            <Route path="*" element={<Navigate to="/dashboard" replace />} />
-          </Routes>
-        </div>
+      <div style={{ 
+        flex: 1, 
+        marginLeft: sidebarCollapsed ? '80px' : '280px',
+        transition: 'margin-left 0.3s ease',
+        minHeight: '100vh'
+      }}>
+        <Routes>
+          <Route path="/" element={renderDashboardHome()} />
+          <Route path="/profile" element={<Profile />} />
+          
+          {user.role === 'admin' && (
+            <>
+              <Route path="/users" element={<UserManagement />} />
+              <Route path="/pets" element={<PetManagement />} />
+              <Route path="/clients" element={<ClientManagement />} />
+              <Route path="/appointments" element={<AppointmentManagement />} />
+              <Route path="/analytics" element={<Analytics />} />
+              <Route path="/settings" element={<Settings />} />
+            </>
+          )}
+          
+          <Route path="*" element={<Navigate to="/dashboard" replace />} />
+        </Routes>
       </div>
-
-      {/* Mobile Overlay */}
-      {mobileMenuOpen && (
-        <div 
-          className="mobile-overlay"
-          onClick={() => setMobileMenuOpen(false)}
-        />
-      )}
     </div>
   );
 };
