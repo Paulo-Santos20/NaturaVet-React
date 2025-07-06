@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { useAuth } from '../../../../hooks/useAuth';
 import './DashboardSidebar.css';
 
 const DashboardSidebar = ({ user, collapsed, mobileOpen, onToggleMobile, onToggleSidebar }) => {
   const location = useLocation();
+  const { logout } = useAuth();
+  const [showUserMenu, setShowUserMenu] = useState(false);
 
   const getMenuItems = () => {
     const commonItems = [
@@ -11,6 +14,7 @@ const DashboardSidebar = ({ user, collapsed, mobileOpen, onToggleMobile, onToggl
         path: '/dashboard',
         icon: '📊',
         label: 'Dashboard',
+        description: 'Visão geral do sistema',
         exact: true
       }
     ];
@@ -18,90 +22,124 @@ const DashboardSidebar = ({ user, collapsed, mobileOpen, onToggleMobile, onToggl
     const roleSpecificItems = {
       admin: [
         {
-          path: '/dashboard/users',
+          path: '/dashboard/appointments',
+          icon: '📅',
+          label: 'Agendamentos',
+          description: 'Gerenciar consultas'
+        },
+        {
+          path: '/dashboard/clients',
           icon: '👥',
-          label: 'Usuários'
+          label: 'Clientes',
+          description: 'Gerenciar clientes'
         },
         {
           path: '/dashboard/pets',
           icon: '🐾',
-          label: 'Pets'
+          label: 'Pets',
+          description: 'Gerenciar pets'
         },
         {
-          path: '/dashboard/clients',
+          path: '/dashboard/users',
           icon: '👤',
-          label: 'Clientes'
-        },
-        {
-          path: '/dashboard/appointments',
-          icon: '📅',
-          label: 'Agendamentos'
+          label: 'Usuários',
+          description: 'Gerenciar usuários'
         },
         {
           path: '/dashboard/analytics',
           icon: '📈',
-          label: 'Analytics'
+          label: 'Relatórios',
+          description: 'Análises e métricas'
         },
         {
           path: '/dashboard/settings',
           icon: '⚙️',
-          label: 'Configurações'
+          label: 'Configurações',
+          description: 'Configurações do sistema'
         }
       ],
-      consultant: [
+      consultor: [
         {
-          path: '/dashboard/clients',
-          icon: '👥',
-          label: 'Meus Clientes'
+          path: '/dashboard/schedule',
+          icon: '📅',
+          label: 'Agenda',
+          description: 'Minha agenda'
         },
         {
-          path: '/dashboard/appointments',
-          icon: '📅',
-          label: 'Agenda'
+          path: '/dashboard/my-clients',
+          icon: '👥',
+          label: 'Meus Clientes',
+          description: 'Clientes atribuídos'
         },
         {
           path: '/dashboard/pets',
           icon: '🐾',
-          label: 'Pets'
+          label: 'Pets',
+          description: 'Pets dos clientes'
         },
         {
-          path: '/dashboard/records',
-          icon: '📋',
-          label: 'Prontuários'
+          path: '/dashboard/consultations',
+          icon: '🩺',
+          label: 'Consultas',
+          description: 'Histórico de consultas'
+        },
+        {
+          path: '/dashboard/nutrition-plans',
+          icon: '🍽️',
+          label: 'Planos Nutricionais',
+          description: 'Planos criados'
         }
       ],
       editor: [
         {
           path: '/dashboard/content',
           icon: '📝',
-          label: 'Conteúdo'
+          label: 'Conteúdo',
+          description: 'Gerenciar artigos'
         },
         {
           path: '/dashboard/blog',
-          icon: '📚',
-          label: 'Blog'
+          icon: '📰',
+          label: 'Blog',
+          description: 'Posts do blog'
+        },
+        {
+          path: '/dashboard/media',
+          icon: '🖼️',
+          label: 'Mídia',
+          description: 'Arquivos de mídia'
         },
         {
           path: '/dashboard/comments',
           icon: '💬',
-          label: 'Comentários'
+          label: 'Comentários',
+          description: 'Moderar comentários'
         }
       ],
-      client: [
+      cliente: [
         {
-          path: '/dashboard/pets',
+          path: '/dashboard/my-pets',
           icon: '🐾',
-          label: 'Meus Pets'
+          label: 'Meus Pets',
+          description: 'Perfis dos pets'
         },
         {
-          path: '/dashboard/appointments',
+          path: '/dashboard/my-appointments',
           icon: '📅',
-          label: 'Agendamentos'
+          label: 'Agendamentos',
+          description: 'Minhas consultas'
         },
         {
-          path: '/dashboard/reports',
-          icon: '📊',
-          label: 'Relatórios'
+          path: '/dashboard/nutrition',
+          icon: '🍽️',
+          label: 'Nutrição',
+          description: 'Planos nutricionais'
+        },
+        {
+          path: '/dashboard/profile',
+          icon: '👤',
+          label: 'Perfil',
+          description: 'Meu perfil'
         }
       ]
     };
@@ -111,6 +149,25 @@ const DashboardSidebar = ({ user, collapsed, mobileOpen, onToggleMobile, onToggl
       ...(roleSpecificItems[user.role] || [])
     ];
   };
+
+  const userMenuItems = [
+    { 
+      label: 'Meu Perfil', 
+      icon: '👤', 
+      action: () => console.log('Ir para perfil') 
+    },
+    { 
+      label: 'Configurações', 
+      icon: '⚙️', 
+      action: () => console.log('Ir para configurações') 
+    },
+    { 
+      label: 'Sair', 
+      icon: '🚪', 
+      action: logout,
+      danger: true 
+    }
+  ];
 
   const isActivePath = (path, exact = false) => {
     if (exact) {
@@ -124,37 +181,50 @@ const DashboardSidebar = ({ user, collapsed, mobileOpen, onToggleMobile, onToggl
       admin: {
         title: 'Administrador',
         description: 'Acesso total',
-        color: '#e74c3c'
+        color: '#FC5A8D'
       },
-      consultant: {
+      consultor: {
         title: 'Consultor',
         description: 'Atendimento',
-        color: '#3498db'
+        color: '#17a2b8'
       },
       editor: {
         title: 'Editor',
         description: 'Conteúdo',
-        color: '#9b59b6'
+        color: '#6f42c1'
       },
-      client: {
+      cliente: {
         title: 'Cliente',
         description: 'Pet care',
-        color: '#2ecc71'
+        color: '#28a745'
       }
     };
-    return roleData[user.role] || roleData.client;
+    return roleData[user.role] || roleData.cliente;
   };
 
   const roleInfo = getRoleInfo();
 
   return (
     <>
+      {/* Overlay para mobile */}
+      {mobileOpen && (
+        <div 
+          className="sidebar-overlay"
+          onClick={onToggleMobile}
+        />
+      )}
+
       <aside className={`dashboard-sidebar ${collapsed ? 'collapsed' : ''} ${mobileOpen ? 'mobile-open' : ''}`}>
-        {/* Logo/Brand */}
+        {/* Header do Sidebar */}
         <div className="sidebar-header">
           <Link to="/" className="sidebar-brand">
             <span className="brand-icon">🌿</span>
-            {!collapsed && <span className="brand-text">NaturaVet</span>}
+            {!collapsed && (
+              <div className="brand-text">
+                <span className="brand-title">NaturaVet</span>
+                <span className="brand-subtitle">Dashboard</span>
+              </div>
+            )}
           </Link>
           
           {/* Botão de recolher - Desktop */}
@@ -167,31 +237,72 @@ const DashboardSidebar = ({ user, collapsed, mobileOpen, onToggleMobile, onToggl
               {collapsed ? '→' : '←'}
             </span>
           </button>
+
+          {/* Botão de fechar - Mobile */}
+          <button
+            className="sidebar-close-btn mobile-only"
+            onClick={onToggleMobile}
+            title="Fechar menu"
+          >
+            <span className="close-icon">✕</span>
+          </button>
         </div>
 
-        {/* User Info */}
+        {/* Informações do Usuário */}
         <div className="sidebar-user">
-          <div className="user-avatar">
-            {user.name.charAt(0).toUpperCase()}
+          <div 
+            className="user-info"
+            onClick={() => setShowUserMenu(!showUserMenu)}
+          >
+            <div className="user-avatar">
+              {user.name.charAt(0).toUpperCase()}
+            </div>
+            {!collapsed && (
+              <div className="user-details">
+                <h4 className="user-name">{user.name}</h4>
+                <span 
+                  className="user-role"
+                  style={{ color: roleInfo.color }}
+                >
+                  {roleInfo.title}
+                </span>
+                <span className="user-description">
+                  {roleInfo.description}
+                </span>
+              </div>
+            )}
+            {!collapsed && (
+              <div className={`user-menu-arrow ${showUserMenu ? 'open' : ''}`}>
+                ▼
+              </div>
+            )}
           </div>
-          {!collapsed && (
-            <div className="user-details">
-              <h4 className="user-name">{user.name}</h4>
-              <span 
-                className="user-role"
-                style={{ color: roleInfo.color }}
-              >
-                {roleInfo.title}
-              </span>
+
+          {/* Menu dropdown do usuário */}
+          {showUserMenu && !collapsed && (
+            <div className="user-dropdown">
+              {userMenuItems.map((item, index) => (
+                <button
+                  key={`user-menu-${index}`}
+                  className={`user-menu-item ${item.danger ? 'danger' : ''}`}
+                  onClick={() => {
+                    item.action();
+                    setShowUserMenu(false);
+                  }}
+                >
+                  <span className="menu-icon">{item.icon}</span>
+                  <span className="menu-label">{item.label}</span>
+                </button>
+              ))}
             </div>
           )}
         </div>
 
-        {/* Navigation */}
+        {/* Navegação Principal */}
         <nav className="sidebar-nav">
           <ul className="nav-list">
             {getMenuItems().map((item, index) => (
-              <li key={index} className="nav-item">
+              <li key={`nav-item-${item.path}-${index}`} className="nav-item">
                 <Link
                   to={item.path}
                   className={`nav-link ${isActivePath(item.path, item.exact) ? 'active' : ''}`}
@@ -199,14 +310,22 @@ const DashboardSidebar = ({ user, collapsed, mobileOpen, onToggleMobile, onToggl
                   title={collapsed ? item.label : ''}
                 >
                   <span className="nav-icon">{item.icon}</span>
-                  {!collapsed && <span className="nav-label">{item.label}</span>}
+                  {!collapsed && (
+                    <div className="nav-content">
+                      <span className="nav-label">{item.label}</span>
+                      <span className="nav-description">{item.description}</span>
+                    </div>
+                  )}
+                  {isActivePath(item.path, item.exact) && (
+                    <div className="active-indicator"></div>
+                  )}
                 </Link>
               </li>
             ))}
           </ul>
         </nav>
 
-        {/* Back to Site */}
+        {/* Footer do Sidebar */}
         <div className="sidebar-footer">
           <Link
             to="/"
@@ -216,6 +335,17 @@ const DashboardSidebar = ({ user, collapsed, mobileOpen, onToggleMobile, onToggl
             <span className="nav-icon">🌐</span>
             {!collapsed && <span className="nav-label">Voltar ao Site</span>}
           </Link>
+          
+          {!collapsed && (
+            <div className="footer-info">
+              <div className="footer-version">v2.1.0</div>
+              <div className="footer-support">
+                <a href="mailto:suporte@naturavet.com" className="support-link">
+                  💬 Suporte
+                </a>
+              </div>
+            </div>
+          )}
         </div>
       </aside>
     </>

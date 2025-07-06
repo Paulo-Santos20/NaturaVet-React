@@ -7,19 +7,17 @@ import DashboardSidebar from '../../components/features/Dashboard/DashboardSideb
 import AdminDashboard from './Admin/AdminDashboard';
 import UserManagement from './Admin/UserManagement/UserManagement';
 import PetManagement from './Admin/PetManagement/PetManagement';
+import ClientManagement from './Admin/ClientManagement/ClientManagement';
+import AppointmentManagement from './Admin/AppointmentManagement/AppointmentManagement';
+import Settings from './Admin/Settings/Settings'; // ✅ IMPORTAR CONFIGURAÇÕES
 import Profile from './Profile/Profile';
 
 // Componentes temporários para outras abas
-const ClientManagement = () => <div style={{ padding: '2rem' }}><h1>👥 Gerenciamento de Clientes</h1><p>Em desenvolvimento...</p></div>;
-const AppointmentManagement = () => <div style={{ padding: '2rem' }}><h1>📅 Gerenciamento de Agendamentos</h1><p>Em desenvolvimento...</p></div>;
 const Analytics = () => <div style={{ padding: '2rem' }}><h1>📊 Analytics</h1><p>Em desenvolvimento...</p></div>;
-const Settings = () => <div style={{ padding: '2rem' }}><h1>⚙️ Configurações</h1><p>Em desenvolvimento...</p></div>;
 
 const Dashboard = () => {
   const { user, logout, loading } = useAuth();
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
-
-  console.log('🔍 Dashboard: Renderizando...', { user: user?.name, loading });
 
   if (loading) {
     return (
@@ -43,12 +41,10 @@ const Dashboard = () => {
   }
 
   if (!user) {
-    console.log('🔍 Dashboard: Usuário não encontrado, redirecionando...');
     return <Navigate to="/login" replace />;
   }
 
   const toggleSidebar = () => {
-    console.log('🔍 Dashboard: Toggle sidebar', { collapsed: !sidebarCollapsed });
     setSidebarCollapsed(!sidebarCollapsed);
   };
 
@@ -92,7 +88,7 @@ const Dashboard = () => {
               <Route path="/clients" element={<ClientManagement />} />
               <Route path="/appointments" element={<AppointmentManagement />} />
               <Route path="/analytics" element={<Analytics />} />
-              <Route path="/settings" element={<Settings />} />
+              <Route path="/settings" element={<Settings />} /> {/* ✅ ROTA CONFIGURAÇÕES */}
             </>
           )}
           
