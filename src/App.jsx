@@ -19,13 +19,14 @@ function App() {
   return (
     <AuthProvider>
       <DataProvider>
-        <Router> {/* ✅ APENAS UM Router aqui */}
+        <Router> 
           <div className="App">
             <Routes>
               {/* Rotas públicas */}
               <Route path="/" element={<Layout><Home /></Layout>} />
               <Route path="/sobre" element={<Layout><About /></Layout>} />
-              <Route path="/servicos" element={<Layout><Services /></Layout>} />
+               <Route path="/servicos" element={<Services />} /> 
+              <Route path="/services" element={<Services />} />
               <Route path="/depoimentos" element={<Layout><Testimonials /></Layout>} />
               <Route path="/contato" element={<Layout><Contact /></Layout>} />
               <Route path="/blog" element={<Layout><Blog /></Layout>} />

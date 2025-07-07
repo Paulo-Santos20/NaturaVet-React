@@ -24,13 +24,13 @@ html, body {
 
 /* ===== VARIÁVEIS CSS ===== */
 :root {
-  --color-primary: #E6FAE6;
+  --color-primary: #ffffff;
   --color-accent: #FC5A8D;
   --color-text: #000000;
   --color-white: #ffffff;
-  --color-gray-light: #f8f9fa;
-  --color-gray: #6c757d;
-  --color-gray-dark: #343a40;
+  --color-gray-light: #000000;
+  --color-gray: #000000;
+  --color-gray-dark: #000000;
   --shadow-light: 0 2px 4px rgba(0, 0, 0, 0.1);
   --shadow-medium: 0 4px 8px rgba(0, 0, 0, 0.15);
   --shadow-heavy: 0 8px 16px rgba(0, 0, 0, 0.2);
@@ -420,11 +420,11 @@ html, body {
 /* ===== MODO ESCURO (preparação) ===== */
 @media (prefers-color-scheme: dark) {
   :root {
-    --color-white: #1a1a1a;
-    --color-text: #ffffff;
-    --color-gray-light: #2d2d2d;
+    --color-white: #ffffff;
+    --color-text: #000000;
+    --color-gray-light: #dddddd;
     --color-gray: #a0a0a0;
-    --color-gray-dark: #f0f0f0;
+    --color-gray-dark: #5e5c5c;
   }
 }
 

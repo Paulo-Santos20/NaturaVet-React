@@ -180,22 +180,18 @@ const DashboardSidebar = ({ user, collapsed, mobileOpen, onToggleMobile, onToggl
     const roleData = {
       admin: {
         title: 'Administrador',
-        description: 'Acesso total',
         color: '#FC5A8D'
       },
       consultor: {
         title: 'Consultor',
-        description: 'Atendimento',
         color: '#17a2b8'
       },
       editor: {
         title: 'Editor',
-        description: 'Conteúdo',
         color: '#6f42c1'
       },
       cliente: {
         title: 'Cliente',
-        description: 'Pet care',
         color: '#28a745'
       }
     };
